@@ -38,9 +38,3 @@ class Donation(object):
                "personnel: %-30s | date: %-30s | blood: %-4s " \
                "| quantity: %-4f | valability: %-30s" % (self.donation_id, self.donor, self.personnel, self.date,
                                                          self.blood, self.quantity, str(self.valability))
-
-
-x = Donation(123, "muie", "laba", datetime.datetime(year=2000, month=1, day=1), 1, 1.234,
-             datetime.timedelta(days=2))
-
-print(x)

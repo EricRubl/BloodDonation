@@ -1,16 +1,16 @@
-class LabResult:
+class LabResult(object):
     def __init__(self, donation_id, syph, hbv, hiv, hev, htlv):
         """
         Constructor for LabResult class
 
-        :param donation_id:     string, FOREIGN KEY
+        :param donation_id:     int, FOREIGN KEY
         :param syph:            bool
         :param hbv:             bool
         :param hiv:             bool
         :param hev:             bool
         :param htlv:            bool
 
-        :type donation_id: str
+        :type donation_id: int
         :type syph: bool
         :type hbv: bool
         :type hiv: bool
@@ -65,9 +65,3 @@ class LabResult:
         negative = str(self.get_negative())
         return "Donation ID: %-8d | positive: %-50s | negative: %s" % \
                (self.donation_id, positive, negative)
-
-
-x = LabResult(1, True, True, True, True, True)
-y = LabResult(1, False, False, False, True, True)
-print(x)
-print(y)

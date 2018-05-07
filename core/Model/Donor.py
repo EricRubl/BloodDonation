@@ -31,9 +31,3 @@ class Donor(object):
         return "Donor: %-30s | Date of birth: %-30s | email: %-30s | blood: %-4s" % (
             self.name, str(self.date_of_birth), self.email, BloodType.to_string[self.blood]
         )
-
-    pass
-
-
-x = Donor("mata", datetime.datetime(year=2018, month=1, day=1), "mata", "mata", 3)
-print(x)
