@@ -7,7 +7,7 @@ class RequestStatus(object):
     }
 
     to_code = {
-        "open" : 0,
+        "open": 0,
         "escalated": 1,
         "in_progress": 2,
         "closed": 3

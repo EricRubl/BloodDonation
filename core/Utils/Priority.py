@@ -8,6 +8,5 @@ class Priority(object):
     to_code = {
         "normal": 0,
         "high": 1,
-
         "critical": 2
     }
