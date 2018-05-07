@@ -7,10 +7,10 @@ class Donor(object):
         """
         Constructor for Donor class
 
-        :param name:            str
+        :param name:            string
         :param date_of_birth:   datetime.datetime object
-        :param email:           str
-        :param password:        must be a sha-256
+        :param email:           string
+        :param password:        must be a sha-256 (string of len 64)
         :param blood:           must be a code of BloodType
 
         :type name: str
@@ -23,10 +23,9 @@ class Donor(object):
         self.date_of_birth = date_of_birth
         self.email = email
         self.password = password
-        if isinstance(blood, str):
-            self.blood = BloodType.to_code[blood]
-        else:
-            self.blood = blood
+
+        #  switching to codes
+        self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
 
     def __str__(self):
         return "Donor: %-30s | Date of birth: %-30s | email: %-30s | blood: %-4s" % (
@@ -38,4 +37,3 @@ class Donor(object):
 
 x = Donor("mata", datetime.datetime(year=2018, month=1, day=1), "mata", "mata", 3)
 print(x)
-
