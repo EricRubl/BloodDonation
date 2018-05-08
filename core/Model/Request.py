@@ -52,4 +52,4 @@ class Request(Base):
             self.request_id = new_id
 
     def get_db_update_string(self, **kwargs):
-        return "UPDATE Requests SET Priority=" \ "%d" % \ ()
+        return "UPDATE Requests SET Priority=%d WHERE ID=%d" % (kwargs.get('status'), kwargs.get('id'))
