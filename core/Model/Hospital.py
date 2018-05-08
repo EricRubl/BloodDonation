@@ -28,4 +28,3 @@ class Hospital(Base):
 
     def get_db_update_string(self):
         raise OperationException('Operation not allowed!')
-

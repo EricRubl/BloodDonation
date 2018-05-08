@@ -1,3 +1,4 @@
+from Exception.OperationException import OperationException
 from Model.Base import Base
 
 
@@ -25,3 +26,6 @@ class RequestDonation(Base):
 
     def update_id(self, new_id):
         pass
+
+    def get_db_update_string(self, **kwargs):
+        raise OperationException('Operation not allowed!')

@@ -72,12 +72,39 @@ class DataBaseConnector:
 
         # r = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
         # x = RequestDonation(17, 8)
-        x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
+        # x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
         # self.insert(r)
         # print(r)
-        print(x)
-        self.insert(x)
-        print(x)
+        try:
+            cnx = mysql.connector.connect(**self.db_config)
+            cursor = cnx.cursor()
+            obj = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
+            obj.request_id = 17
+
+            query = obj.get_db_update_string(id=17, status=3)
+            cursor.execute(query)
+
+            # cursor.execute('SELECT LAST_INSERT_ID()')
+            # result_set = cursor.fetchall()
+            # new_id = result_set[0][0]
+
+            # obj.update_id(new_id)
+            cnx.commit()
+            cursor.close()
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                raise err
+        else:
+            # Successfully executed the insert
+            cnx.close()
+
+        # print(x)
+        # self.insert(x)
+        # print(x)
 
 
 x123 = DataBaseConnector()
