@@ -1,4 +1,6 @@
 import datetime
+
+from Exception.OperationException import OperationException
 from Utils.BloodType import BloodType
 from Model.Base import Base
 
@@ -41,6 +43,9 @@ class Donor(Base):
         return "INSERT INTO Donors (Name, DOB, Email, Address, Password, Blood) " \
                "VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\')" % \
                (self.name, self.date_of_birth, self.email, self.address, self.password, BloodType.to_string[self.blood])
+
+    def get_db_update_string(self):
+        raise OperationException('Operation not allowed!')
 
     def update_id(self, new_id):
         pass

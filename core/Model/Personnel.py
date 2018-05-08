@@ -1,3 +1,4 @@
+from Exception.OperationException import OperationException
 from Model.Base import Base
 
 
@@ -25,6 +26,9 @@ class Personnel(Base):
         return "INSERT INTO Personnel (Name, Email, Password) VALUES " \
                "(\'%s\', \'%s\', \'%s\')" % \
                (self.name, self.email, self.password)
+
+    def get_db_update_string(self):
+        raise OperationException('Operation not allowed!')
 
     def update_id(self, new_id):
         pass

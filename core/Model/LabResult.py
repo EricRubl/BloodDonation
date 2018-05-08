@@ -1,7 +1,7 @@
-from Model.Base import Base
+from Exception.OperationException import OperationException
 
 
-class LabResult(Base):
+class LabResult(object):
     def __init__(self, donation_id, syph, hbv, hiv, hev, htlv):
         """
         Constructor for LabResult class
@@ -20,7 +20,6 @@ class LabResult(Base):
         :type hev: bool
         :type htlv: bool
         """
-        super().__init__()
         self.donation_id = donation_id
         self.syph = syph
         self.HBV = hbv
@@ -69,6 +68,9 @@ class LabResult(Base):
         negative = str(self.get_negative())
         return "Donation ID: %-8d | positive: %-50s | negative: %s" % \
                (self.donation_id, positive, negative)
+
+    def get_db_update_string(self):
+        raise OperationException('Operation not allowed!')
 
     def get_db_insert_string(self):
         return "INSERT INTO LabResults (Donation, Syph, HBV, HIV, HEV, HTLV) " \

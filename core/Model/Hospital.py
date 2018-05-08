@@ -1,3 +1,4 @@
+from Exception.OperationException import OperationException
 from Model.Base import Base
 
 
@@ -24,3 +25,7 @@ class Hospital(Base):
 
     def update_id(self, new_id):
         pass
+
+    def get_db_update_string(self):
+        raise OperationException('Operation not allowed!')
+

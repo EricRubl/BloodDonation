@@ -1,5 +1,6 @@
 import datetime
 
+from Exception.OperationException import OperationException
 from Utils.BloodType import BloodType
 from Model.Base import Base
 
@@ -47,3 +48,6 @@ class Donation(Base):
     def update_id(self, new_id):
         if self.donation_id is None:
             self.donation_id = new_id
+
+    def get_db_update_string(self):
+        raise OperationException('Operation not allowed!')

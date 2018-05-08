@@ -50,3 +50,6 @@ class Request(Base):
     def update_id(self, new_id):
         if self.request_id is None:
             self.request_id = new_id
+
+    def get_db_update_string(self, **kwargs):
+        return "UPDATE Requests SET Priority=" \ "%d" % \ ()
