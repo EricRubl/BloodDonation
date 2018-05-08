@@ -12,6 +12,7 @@ from Model.Doctor import Doctor
 from Model.Donor import Donor
 from Model.Hospital import Hospital
 from Model.Request import Request
+from Model.StatusUpdate import StatusUpdate
 from config import DataBaseConfig
 from Model.Base import Base
 
@@ -70,8 +71,8 @@ class DataBaseConnector:
         # l = LabResult(8, True, True, False, True, False)
 
         # r = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
-        x = RequestDonation(17, 8)
-
+        # x = RequestDonation(17, 8)
+        x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
         # self.insert(r)
         # print(r)
         print(x)
