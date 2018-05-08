@@ -1,4 +1,7 @@
-class Hospital(object):
+from Model.Base import Base
+
+
+class Hospital(Base):
     def __init__(self, name, address):
         """
         Constructor for Hospital class
@@ -9,8 +12,12 @@ class Hospital(object):
         :type name str
         :type address str
         """
+        super().__init__()
         self.name = name
         self.address = address
 
     def __str__(self):
         return "Hospital: %-30s | address: %-30s" % (self.name, self.address)
+
+    def get_db_insert_string(self):
+        return "INSERT INTO Hospitals (Name, Address) VALUES (\'%s\', \'%s\')" % (self.name, self.address)

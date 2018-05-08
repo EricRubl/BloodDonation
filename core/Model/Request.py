@@ -1,14 +1,14 @@
 import datetime
 from Utils.BloodType import BloodType
 from Utils.RequestStatus import RequestStatus
+from Model.Base import Base
 
 
-class Request(object):
-    def __init__(self, request_id, priority, blood, doctor, quantity, status, date):
+class Request(Base):
+    def __init__(self, priority, blood, doctor, quantity, status, date):
         """
         Constructor for Request class
 
-        :param request_id:      int
         :param priority:        int
         :param blood:           must be a code of BloodType
         :param doctor:          string, FOREIGN KEY
@@ -16,7 +16,6 @@ class Request(object):
         :param status:          must be a code of RequestStatus
         :param date:            datetime.datetime object
 
-        :type request_id: int
         :type priority: int
         :type blood: str, int
         :type doctor: str
@@ -24,13 +23,15 @@ class Request(object):
         :type status: str, int
         :type date: datetime.datetime
         """
-        self.request_id = request_id
+        super().__init__()
+        self.request_id = None
         self.priority = priority
         self.doctor = doctor
         self.quantity = quantity
         self.date = date
 
         #  switching to codes
+        #  todo blood conflict
         self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
         self.status = RequestStatus.to_code[status] if isinstance(status, str) else status
 
@@ -40,3 +41,12 @@ class Request(object):
                "status: %-15s | date: %-30s" % (self.request_id, self.priority,
                                                 BloodType.to_string[self.blood], self.doctor, self.quantity,
                                                 RequestStatus.to_string[self.status], str(self.date))
+
+    def get_db_insert_string(self):
+        return "INSERT INTO Requests (Priority, Blood, Doctor, Quantity, Status, Date) VALUES " \
+               "(%d, \'%s\', \'%s\', %f, %d, \'%s\')" % \
+               (self.priority, self.blood, self.doctor, self.quantity, self.status, self.date)
+
+
+r = Request(2, 2, "Dana Bostana", 999999.32, 2, datetime.datetime.now())
+print(r.get_db_insert_string())

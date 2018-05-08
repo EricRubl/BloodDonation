@@ -1,34 +1,34 @@
 import datetime
 
 from Utils.BloodType import BloodType
+from Model.Base import Base
 
 
-class Donation(object):
-    def __init__(self, donation_id, donor, personnel, date, blood, quantity, valability):
+class Donation(Base):
+    def __init__(self, donor, personnel, date, blood, quantity, expire_date):
         """
 
-        :param donation_id:         int
         :param donor:               string, FOREIGN KEY
         :param personnel:           string, FOREIGN KEY
         :param date:                datetime.datetime object
         :param blood:               must be a code of BloodType
         :param quantity:            float
-        :param valability:          datetime.timedelta object
+        :param expire_date:         datetime.datetime object
 
-        :type donation_id: int
         :type donor: str
         :type personnel: str
         :type date: datetime.datetime
         :type blood: str,int
         :type quantity: float
-        :type valability: datetime.timedelta
+        :type expire_date: datetime.datetime
         """
-        self.donation_id = donation_id
+        super().__init__()
+        self.donation_id = None
         self.donor = donor
         self.personnel = personnel
         self.date = date
         self.quantity = quantity
-        self.valability = valability
+        self.expire_date = expire_date
 
         # switching to code
         self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
@@ -37,4 +37,9 @@ class Donation(object):
         return "Donation ID: %-8d | donor: %-30s | " \
                "personnel: %-30s | date: %-30s | blood: %-4s " \
                "| quantity: %-4f | valability: %-30s" % (self.donation_id, self.donor, self.personnel, self.date,
-                                                         self.blood, self.quantity, str(self.valability))
+                                                         self.blood, self.quantity, str(self.expire_date))
+
+    def get_db_insert_string(self):
+        return "INSERT INTO Donations (Donor, Personnel, Date, Blood, Quantity, ExpireDate) VALUES " \
+               "(\'%s\', \'%s\', \'%s\', \'%s\', %f, \'%s\')" % \
+               (self.donor, self.personnel, self.date, BloodType.to_string[self.blood], self.quantity, self.expire_date)

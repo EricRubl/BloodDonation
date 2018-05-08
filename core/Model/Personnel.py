@@ -1,4 +1,7 @@
-class Personnel(object):
+from Model.Base import Base
+
+
+class Personnel(Base):
     def __init__(self, name, email, password):
         """
         Constructor for Personnel class
@@ -10,9 +13,15 @@ class Personnel(object):
         :type name str
         :type name str
         """
+        super().__init__()
         self.name = name
         self.email = email
         self.password = password
 
     def __str__(self):
         return "Personnel: %-30s | email: %-30s" % (self.name, self.email)
+
+    def get_db_insert_string(self):
+        return "INSERT INTO Personnel (Name, Email, Password) VALUES " \
+               "(\'%s\', \'%s\', \'%s\')" % \
+               (self.name, self.email, self.password)
