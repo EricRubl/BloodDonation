@@ -1,0 +1,64 @@
+DELIMITER //
+CREATE PROCEDURE GetAllDonationsOfUser
+(IN name VARCHAR(30))
+BEGIN
+  SELECT * FROM Donations WHERE Donor=name ORDER BY Date DESC ;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE GetDonationLabs
+(IN DonationID INT)
+BEGIN
+  SELECT * FROM LabResults WHERE Donation=DonationID;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE GetDonorDetails
+(IN name VARCHAR(30))
+BEGIN
+  SELECT * FROM Donors WHERE Name=name;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE GetAllDonations()
+BEGIN
+  SELECT * FROM Donations ORDER BY Date DESC;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE UserLogin
+(IN name VARCHAR(30))
+BEGIN
+  SELECT Password FROM Donors WHERE Name=name;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE DoctorLogin
+(IN name VARCHAR(30))
+BEGIN
+  SELECT Password FROM Doctors WHERE Name=name;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE PersonnelLogin
+(IN name VARCHAR(30))
+BEGIN
+  SELECT Password FROM Personnel WHERE Name=name;
+END //
+DELIMITER ;
+
+
+#TODO Doctor and Personnel Procedures
