@@ -1,4 +1,7 @@
-class LabResult(object):
+from Model.Base import Base
+
+
+class LabResult(Base):
     def __init__(self, donation_id, syph, hbv, hiv, hev, htlv):
         """
         Constructor for LabResult class
@@ -17,6 +20,7 @@ class LabResult(object):
         :type hev: bool
         :type htlv: bool
         """
+        super().__init__()
         self.donation_id = donation_id
         self.syph = syph
         self.HBV = hbv
@@ -65,3 +69,11 @@ class LabResult(object):
         negative = str(self.get_negative())
         return "Donation ID: %-8d | positive: %-50s | negative: %s" % \
                (self.donation_id, positive, negative)
+
+    def get_db_insert_string(self):
+        return "INSERT INTO LabResults (Donation, Syph, HBV, HIV, HEV, HTLV) " \
+               "VALUES (%d, %s, %s, %s, %s, %s)" % \
+               (self.donation_id, self.syph, self.HBV, self.HIV, self.HEV, self.HTLV)
+
+    def update_id(self, new_id):
+        pass

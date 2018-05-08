@@ -4,7 +4,9 @@ from time import sleep
 import mysql.connector
 from mysql.connector import errorcode
 
+from Model.RequestDonation import RequestDonation
 from Model.Donation import Donation
+from Model.LabResult import LabResult
 from Model.Personnel import Personnel
 from Model.Doctor import Doctor
 from Model.Donor import Donor
@@ -40,7 +42,7 @@ class DataBaseConnector:
             query = obj.get_db_insert_string()
             cursor.execute(query)
 
-            cursor.execute('SELECT last_insert_id()')
+            cursor.execute('SELECT LAST_INSERT_ID()')
             result_set = cursor.fetchall()
             new_id = result_set[0][0]
 
@@ -61,18 +63,21 @@ class DataBaseConnector:
     def test(self):
         # h = Hospital("asdasdasd", "zxczxczxc")
         # d = Donor("zxcasd", datetime.date(year=2010, month=2, day=15), "eee", "address", "asdasdasdasd", 1)
-        d = Doctor("name", "email", "password", "SJU Cluj")
-        # p = Personnel("Valera", "asdasdzxc", "vyvghhbuihyutvgyh")
-        # d = Donation("zxc", "Valera", datetime.datetime.now(), "A+", 12.23,
+        # d = Doctor("name", "email", "password", "SJU Cluj")
+        # l = Personnel("Valera", "asdasdzxc", "vyvghhbuihyutvgyh")
+        # d = Donation("Vlad-Dionisie Potra", "Valera", datetime.datetime.now(), "A+", 12.23,
         #              datetime.datetime.now() + datetime.timedelta(days=365))
+        # l = LabResult(8, True, True, False, True, False)
+
         # r = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
+        x = RequestDonation(17, 8)
+
         # self.insert(r)
         # print(r)
-        print(d)
-        self.insert(h)
-        print(h)
+        print(x)
+        self.insert(x)
+        print(x)
 
 
-x = DataBaseConnector()
-x.test()
-
+x123 = DataBaseConnector()
+x123.test()

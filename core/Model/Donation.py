@@ -34,12 +34,16 @@ class Donation(Base):
         self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
 
     def __str__(self):
-        return "Donation ID: %-8d | donor: %-30s | " \
+        return "Donation ID: %-8s | donor: %-30s | " \
                "personnel: %-30s | date: %-30s | blood: %-4s " \
-               "| quantity: %-4f | valability: %-30s" % (self.donation_id, self.donor, self.personnel, self.date,
+               "| quantity: %-4f | valability: %-30s" % (str(self.donation_id), self.donor, self.personnel, self.date,
                                                          self.blood, self.quantity, str(self.expire_date))
 
     def get_db_insert_string(self):
         return "INSERT INTO Donations (Donor, Personnel, Date, Blood, Quantity, ExpireDate) VALUES " \
                "(\'%s\', \'%s\', \'%s\', \'%s\', %f, \'%s\')" % \
                (self.donor, self.personnel, self.date, BloodType.to_string[self.blood], self.quantity, self.expire_date)
+
+    def update_id(self, new_id):
+        if self.donation_id is None:
+            self.donation_id = new_id

@@ -25,3 +25,6 @@ class Personnel(Base):
         return "INSERT INTO Personnel (Name, Email, Password) VALUES " \
                "(\'%s\', \'%s\', \'%s\')" % \
                (self.name, self.email, self.password)
+
+    def update_id(self, new_id):
+        pass

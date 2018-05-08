@@ -41,3 +41,6 @@ class Donor(Base):
         return "INSERT INTO Donors (Name, DOB, Email, Address, Password, Blood) " \
                "VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\')" % \
                (self.name, self.date_of_birth, self.email, self.address, self.password, BloodType.to_string[self.blood])
+
+    def update_id(self, new_id):
+        pass
