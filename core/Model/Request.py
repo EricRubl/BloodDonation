@@ -36,9 +36,9 @@ class Request(Base):
         self.status = RequestStatus.to_code[status] if isinstance(status, str) else status
 
     def __str__(self):
-        return "Request ID: %-8d | priority: %-8d | " \
+        return "Request ID: %-8s | priority: %-8d | " \
                "blood: %-4s | doctor: %-s | quantity: %4f |" \
-               "status: %-15s | date: %-30s" % (self.request_id, self.priority,
+               "status: %-15s | date: %-30s" % (str(self.request_id), self.priority,
                                                 BloodType.to_string[self.blood], self.doctor, self.quantity,
                                                 RequestStatus.to_string[self.status], str(self.date))
 
@@ -47,6 +47,6 @@ class Request(Base):
                "(%d, \'%s\', \'%s\', %f, %d, \'%s\')" % \
                (self.priority, self.blood, self.doctor, self.quantity, self.status, self.date)
 
-
-r = Request(2, 2, "Dana Bostana", 999999.32, 2, datetime.datetime.now())
-print(r.get_db_insert_string())
+    def update_id(self, new_id):
+        if self.request_id is None:
+            self.request_id = new_id

@@ -1,4 +1,5 @@
 import datetime
+from time import sleep
 
 import mysql.connector
 from mysql.connector import errorcode
@@ -26,6 +27,9 @@ class DataBaseConnector:
         """
         Inserts any object into the database
 
+            obj will be modified, assigning automatically the id set by the db (helps if the id is auto increment,
+        and not set by the user), useless if the PK is set by the user.
+
         :param obj: must be a subclassed object from Base class, meaning one from Model package
         :type obj:  Base
         :return:
@@ -34,8 +38,13 @@ class DataBaseConnector:
             cnx = mysql.connector.connect(**self.db_config)
             cursor = cnx.cursor()
             query = obj.get_db_insert_string()
-            print("am ajuns aici si am supt pula", query)
             cursor.execute(query)
+
+            cursor.execute('SELECT last_insert_id()')
+            result_set = cursor.fetchall()
+            new_id = result_set[0][0]
+
+            obj.update_id(new_id)
             cursor.close()
             cnx.commit()
         except mysql.connector.Error as err:
@@ -52,11 +61,16 @@ class DataBaseConnector:
     def test(self):
         # h = Hospital("asdasdasd", "zxczxczxc")
         # d = Donor("zxcasd", datetime.date(year=2010, month=2, day=15), "eee", "address", "asdasdasdasd", 1)
+        d = Doctor("name", "email", "password", "SJU Cluj")
         # p = Personnel("Valera", "asdasdzxc", "vyvghhbuihyutvgyh")
         # d = Donation("zxc", "Valera", datetime.datetime.now(), "A+", 12.23,
         #              datetime.datetime.now() + datetime.timedelta(days=365))
-        r = Request(2, 2, "Dana Bostana", 999999.32, 2, datetime.datetime.now())
-        self.insert(r)
+        # r = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
+        # self.insert(r)
+        # print(r)
+        print(d)
+        self.insert(h)
+        print(h)
 
 
 x = DataBaseConnector()

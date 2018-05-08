@@ -30,3 +30,6 @@ class Doctor(Base):
     def get_db_insert_string(self):
         return "INSERT INTO Doctors (Name, Email, Password, Hospital) VALUES (\'%s\',\'%s\',\'%s\',\'%s\')" % \
                (self.name, self.email, self.password, self.hospital)
+
+    def update_id(self, new_id):
+        pass

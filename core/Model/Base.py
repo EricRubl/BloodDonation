@@ -14,6 +14,15 @@ class Base(ABC):
             example: 'INSERT INTO ...'
         """
         pass
+
+    @abstractmethod
+    def update_id(self, new_id):
+        """
+        Abstract method
+        Must be implemented in all the classes that have a table in the DB
+        :return: None
+        """
+        pass
 #
 #
 # class A(ABC):

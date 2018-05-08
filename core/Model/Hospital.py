@@ -21,3 +21,6 @@ class Hospital(Base):
 
     def get_db_insert_string(self):
         return "INSERT INTO Hospitals (Name, Address) VALUES (\'%s\', \'%s\')" % (self.name, self.address)
+
+    def update_id(self, new_id):
+        pass
