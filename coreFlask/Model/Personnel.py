@@ -3,6 +3,9 @@ from Model.Base import Base
 
 
 class Personnel(Base):
+    def to_insert_list(self):
+        return [self.name, self.password, self.email]
+
     @staticmethod
     def new(argument):
         """

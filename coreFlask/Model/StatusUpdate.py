@@ -3,6 +3,9 @@ from Model.Base import Base
 
 
 class StatusUpdate(Base):
+    def to_insert_list(self):
+        return [self.date, self.request_id, self.previous, self.current, self.personnel_id]
+
     @staticmethod
     def new(argument):
         """

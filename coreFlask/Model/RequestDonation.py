@@ -3,6 +3,9 @@ from Model.Base import Base
 
 
 class RequestDonation(Base):
+    def to_insert_list(self):
+        return [self.request_id, self.donation_id]
+
     @staticmethod
     def new(argument):
         """

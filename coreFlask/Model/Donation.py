@@ -6,6 +6,9 @@ from Model.Base import Base
 
 
 class Donation(Base):
+    def to_insert_list(self):
+        return [self.donor, self.personnel, self.date, self.blood, self.quantity, self.expire_date, self.in_bank]
+
     @staticmethod
     def new(argument):
         """

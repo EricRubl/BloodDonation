@@ -3,6 +3,9 @@ from Model.Base import Base
 
 
 class Doctor(Base):
+    def to_insert_list(self):
+        return [self.name, self.email, self.password, self.hospital]
+
     @staticmethod
     def new(argument):
         """

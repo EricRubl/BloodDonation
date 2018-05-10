@@ -5,6 +5,9 @@ from Model.Base import Base
 
 
 class Request(Base):
+    def to_insert_list(self):
+        return [self.request_id, self.priority, self.blood, self.doctor, self.quantity, self.status, self.date]
+
     @staticmethod
     def new(argument):
         """
