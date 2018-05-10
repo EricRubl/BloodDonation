@@ -3,7 +3,4 @@ class Controller:
         """
         todo documentation
         """
-
         pass
-
-
