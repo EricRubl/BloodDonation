@@ -4,6 +4,7 @@ from time import sleep
 import mysql.connector
 from mysql.connector import errorcode
 
+from Exception.OperationException import OperationException
 from Model.RequestDonation import RequestDonation
 from Model.Donation import Donation
 from Model.LabResult import LabResult
@@ -35,7 +36,6 @@ class DataBaseConnector:
 
         :param obj: must be a subclassed object from Base class, meaning one from Model package
         :type obj:  Base
-        :return:
         """
         try:
             cnx = mysql.connector.connect(**self.db_config)
@@ -61,6 +61,44 @@ class DataBaseConnector:
             # Successfully executed the insert
             cnx.close()
 
+    def update(self, obj):
+        """
+        Updates any object into the database
+
+            obj will be modified, assigning automatically the updates made.
+
+        :param obj:     Base
+        :type obj:      Base
+        """
+        try:
+            cnx = mysql.connector.connect(**self.db_config)
+            cursor = cnx.cursor()
+            query = obj.get_db_update_string()
+            cursor.execute(query)
+            cnx.commit()
+            cursor.close()
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                raise err
+        except OperationException as err:
+            raise err
+        else:
+            # Successfully executed the insert
+            cnx.close()
+
+    def call_procedure(self, procedure_name, arguments):
+        """
+
+        :param procedure_name:
+        :param arguments:
+        :return:
+        """
+        pass
+
     def test(self):
         # h = Hospital("asdasdasd", "zxczxczxc")
         # d = Donor("zxcasd", datetime.date(year=2010, month=2, day=15), "eee", "address", "asdasdasdasd", 1)
@@ -75,20 +113,20 @@ class DataBaseConnector:
         # x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
         # self.insert(r)
         # print(r)
+
+        k = None
         try:
             cnx = mysql.connector.connect(**self.db_config)
             cursor = cnx.cursor()
-            obj = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
-            obj.request_id = 17
+            query = "GetDoctorByName"
+            args = ['Dana Bostana']
+            cursor.callproc(query, args)
+            for i in cursor.stored_results():
+                k = i.fetchall()
+                print(type(k))
+                for j in k:
+                    print(j)
 
-            query = obj.get_db_update_string(id=17, status=3)
-            cursor.execute(query)
-
-            # cursor.execute('SELECT LAST_INSERT_ID()')
-            # result_set = cursor.fetchall()
-            # new_id = result_set[0][0]
-
-            # obj.update_id(new_id)
             cnx.commit()
             cursor.close()
         except mysql.connector.Error as err:
@@ -98,9 +136,12 @@ class DataBaseConnector:
                 print("Database does not exist")
             else:
                 raise err
+        except OperationException as err:
+            raise err
         else:
             # Successfully executed the insert
             cnx.close()
+            # return k
 
         # print(x)
         # self.insert(x)

@@ -53,5 +53,6 @@ class Request(Base):
 
     def get_db_update_string(self, **kwargs):
         res = "UPDATE Requests SET Status=%d WHERE ID=%d" % (kwargs.get('status'), kwargs.get('id'))
+        self.status = kwargs.get('status')
         print(res)
         return res
