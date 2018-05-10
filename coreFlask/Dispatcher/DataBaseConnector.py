@@ -1,22 +1,9 @@
-import datetime
-from pprint import pprint
-from time import sleep
-
 import mysql.connector
 from mysql.connector import errorcode
 
 from Exception.OperationException import OperationException
-from Model.RequestDonation import RequestDonation
-from Model.Donation import Donation
-from Model.LabResult import LabResult
-from Model.Personnel import Personnel
-from Model.Doctor import Doctor
-from Model.Donor import Donor
-from Model.Hospital import Hospital
-from Model.Request import Request
-from Model.StatusUpdate import StatusUpdate
-from config import DataBaseConfig
 from Model.Base import Base
+from config import DataBaseConfig
 
 
 class DataBaseConnector:
@@ -148,17 +135,18 @@ class DataBaseConnector:
         # x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
         # self.insert(r)
         # print(r)
-        res = self.call_procedure("GetAllDoctors")
-        final_res = []
-        for i in res:
-            final_res.append(Doctor(i[0], i[1], i[2], i[3]))
-        for i in final_res:
-            print(i)
+        # res = self.call_procedure("GetAllDoctors")
+        # final_res = []
+        # for i in res:
+        #     final_res.append(Doctor(i[0], i[1], i[2], i[3]))
+        # for i in final_res:
+        #     print(i)
 
         # print(x)
         # self.insert(x)
         # print(x)
+        pass
 
 
-x123 = DataBaseConnector()
-x123.test()
+# x123 = DataBaseConnector()
+# x123.test()

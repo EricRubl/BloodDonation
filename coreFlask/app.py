@@ -8,5 +8,10 @@ def hello_world():
     return 'Hello World!'
 
 
+@app.route('/core')
+def core():
+    return 'in core'
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(threaded=True)
