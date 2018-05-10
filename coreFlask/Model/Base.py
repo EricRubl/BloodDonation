@@ -65,3 +65,12 @@ class Base(ABC):
         :return: None
         """
         pass
+
+    @staticmethod
+    @abstractmethod
+    def to_insert_procedure():
+        """
+
+        :return:
+        """
+        pass

@@ -3,6 +3,10 @@ from Model.Base import Base
 
 
 class Doctor(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertDoctor'
+
     def to_insert_list(self):
         return [self.name, self.email, self.password, self.hospital]
 
@@ -54,7 +58,7 @@ class Doctor(Base):
                (self.name, self.email, self.password, self.hospital)
 
     def get_db_insert_string(self):
-        return "INSERT INTO Doctors (Name, Email, Password, Hospital) VALUES (\'%s\',\'%s\',\'%s\',\'%s\')" % \
+        return "CALL (Name, Email, Password, Hospital) VALUES (\'%s\',\'%s\',\'%s\',\'%s\')" % \
                (self.name, self.email, self.password, self.hospital)
 
     def update_id(self, new_id):
