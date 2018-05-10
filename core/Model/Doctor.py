@@ -26,7 +26,8 @@ class Doctor(Base):
         self.hospital = hospital
 
     def __str__(self):
-        return "Doctor: %-30s | email: %-30s | hospital: %-30s" % (self.name, self.email, self.hospital)
+        return "Doctor: %-30s | email: %-30s | password: %-64s | hospital: %-30s" % \
+               (self.name, self.email, self.password, self.hospital)
 
     def get_db_insert_string(self):
         return "INSERT INTO Doctors (Name, Email, Password, Hospital) VALUES (\'%s\',\'%s\',\'%s\',\'%s\')" % \

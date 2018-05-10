@@ -1,4 +1,5 @@
 import datetime
+from pprint import pprint
 from time import sleep
 
 import mysql.connector
@@ -90,14 +91,48 @@ class DataBaseConnector:
             # Successfully executed the insert
             cnx.close()
 
-    def call_procedure(self, procedure_name, arguments):
-        """
+    def call_procedure(self, procedure_name, arguments=None):
+        """ Calls a procedure on the DB
 
-        :param procedure_name:
-        :param arguments:
-        :return:
+        :param procedure_name:      the name of the procedure
+        :param arguments:           the arguments for the procedure
+
+        Handle with care, please check to call the correct arguments
+
+        :type procedure_name: str
+        :type arguments: list
+
+        :return:    result of the
+        :rtype:     list
         """
-        pass
+        return_obj = []
+        try:
+            cnx = mysql.connector.connect(**self.db_config)
+            cursor = cnx.cursor()
+            if arguments is None:
+                cursor.callproc(procedure_name)
+            else:
+                cursor.callproc(procedure_name, arguments)
+            for first_table in cursor.stored_results():
+                fetched_results = first_table.fetchall()
+                for result_row in fetched_results:
+                    return_obj.append(result_row)
+                break
+            cnx.commit()
+            cursor.close()
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                raise err
+        except OperationException as err:
+            raise err
+        else:
+            # Successfully executed the insert
+            cnx.close()
+        return return_obj
 
     def test(self):
         # h = Hospital("asdasdasd", "zxczxczxc")
@@ -113,35 +148,12 @@ class DataBaseConnector:
         # x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
         # self.insert(r)
         # print(r)
-
-        k = None
-        try:
-            cnx = mysql.connector.connect(**self.db_config)
-            cursor = cnx.cursor()
-            query = "GetDoctorByName"
-            args = ['Dana Bostana']
-            cursor.callproc(query, args)
-            for i in cursor.stored_results():
-                k = i.fetchall()
-                print(type(k))
-                for j in k:
-                    print(j)
-
-            cnx.commit()
-            cursor.close()
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
-            else:
-                raise err
-        except OperationException as err:
-            raise err
-        else:
-            # Successfully executed the insert
-            cnx.close()
-            # return k
+        res = self.call_procedure("GetAllDoctors")
+        final_res = []
+        for i in res:
+            final_res.append(Doctor(i[0], i[1], i[2], i[3]))
+        for i in final_res:
+            print(i)
 
         # print(x)
         # self.insert(x)
