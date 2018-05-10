@@ -3,6 +3,25 @@ from Model.Base import Base
 
 
 class RequestDonation(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class RequestDonation
+        :type argument tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            return RequestDonation(argument[0], argument[1])
+        elif isinstance(argument, dict):
+            return RequestDonation(argument['request_id'], argument['donation_id'])
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'request_id': self.request_id,
+            'donation_id': self.donation_id
+        }
+
     def __init__(self, request_id, donation_id):
         """
         Constructor for RequestDonation class

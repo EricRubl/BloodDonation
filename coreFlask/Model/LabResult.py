@@ -1,7 +1,32 @@
 from Exception.OperationException import OperationException
+from Model.Base import Base
 
 
-class LabResult(object):
+class LabResult(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class LabResult
+        :type argument tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            return LabResult(argument[0], argument[1], argument[2], argument[3], argument[4], argument[5])
+        elif isinstance(argument, dict):
+            return LabResult(argument['donation_id'], argument['syph'], argument['hbv'],
+                             argument['hiv'], argument['hev'], argument['htlv'])
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'donation_id': self.donation_id,
+            'syph': self.syph,
+            'hbv': self.HBV,
+            'hiv': self.HIV,
+            'hev': self.HEV,
+            'htlv': self.HTLV,
+        }
+
     def __init__(self, donation_id, syph, hbv, hiv, hev, htlv):
         """
         Constructor for LabResult class
@@ -20,6 +45,7 @@ class LabResult(object):
         :type hev: bool
         :type htlv: bool
         """
+        super().__init__()
         self.donation_id = donation_id
         self.syph = syph
         self.HBV = hbv

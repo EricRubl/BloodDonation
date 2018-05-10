@@ -3,6 +3,29 @@ from Model.Base import Base
 
 
 class StatusUpdate(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class StatusUpdate
+        :type argument tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            return StatusUpdate(argument[0], argument[1], argument[2], argument[3], argument[4])
+        elif isinstance(argument, dict):
+            return StatusUpdate(argument['date'], argument['request_id'], argument['previous'],
+                                argument['current'], argument['personnel_id'])
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'date': self.date,
+            'request_id': self.request_id,
+            'previous': self.previous,
+            'current': self.current,
+            'personnel_id': self.personnel_id,
+        }
+
     def __init__(self, date, request_id, previous, current, personnel_id):
         """
         Constructor for StatusUpdate class

@@ -5,6 +5,35 @@ from Model.Base import Base
 
 
 class Request(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class Request
+        :type argument tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            new_obj = Request(argument[1], argument[2], argument[3], argument[4], argument[5], argument[6])
+            new_obj.request_id = argument[0]
+            return new_obj
+        elif isinstance(argument, dict):
+            new_obj = Request(argument['priority'], argument['blood'], argument['doctor'], argument['quantity'],
+                              argument['status'], argument['date'])
+            new_obj.request_id = argument['request_id']
+            return new_obj
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'request_id': self.request_id,
+            'priority': self.priority,
+            'blood': self.blood,
+            'doctor': self.doctor,
+            'quantity': self.quantity,
+            'status': self.status,
+            'date': self.date,
+        }
+
     def __init__(self, priority, blood, doctor, quantity, status, date):
         """
         Constructor for Request class

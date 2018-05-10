@@ -6,6 +6,30 @@ from Model.Base import Base
 
 
 class Donor(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class Donor
+        :type argument: tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            return Donor(argument[0], argument[1], argument[2], argument[3], argument[4], argument[5])
+        elif isinstance(argument, dict):
+            return Donor(argument['name'], argument['date_of_birth'], argument['email'], argument['address'],
+                         argument['password'], argument['blood'])
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'date_of_birth': self.date_of_birth,
+            'email': self.email,
+            'address': self.address,
+            'password': self.password,
+            'blood': self.blood
+        }
+
     def __init__(self, name, date_of_birth, email, address, password, blood):
         """
         Constructor for Donor class

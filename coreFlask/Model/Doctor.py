@@ -3,6 +3,27 @@ from Model.Base import Base
 
 
 class Doctor(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class Doctor
+        :type argument tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            return Doctor(argument[0], argument[1], argument[2], argument[3])
+        elif isinstance(argument, dict):
+            return Doctor(argument['name'], argument['email'], argument['password'], argument['hospital'])
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'email': self.email,
+            'password': self.password,
+            'hospital': self.hospital,
+        }
+
     def __init__(self, name, email, password, hospital):
         """
         Constructor for Doctor class

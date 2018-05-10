@@ -6,6 +6,37 @@ from Model.Base import Base
 
 
 class Donation(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class Donation
+        :type argument: tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            new_obj = Donation(argument[1], argument[2], argument[3], argument[4], argument[5], argument[6],
+                               argument[7])
+            new_obj.donation_id = argument[0]
+            return new_obj
+        elif isinstance(argument, dict):
+            new_obj = Donation(argument['donor'], argument['personnel'], argument['date'], argument['blood'],
+                               argument['quantity'], argument['expire_date'], argument['in_bank'])
+            new_obj.donation_id = argument['donation_id']
+            return new_obj
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'donation_id': self.donation_id,
+            'donor': self.donor,
+            'personnel': self.personnel,
+            'date': self.date,
+            'blood': self.blood,
+            'quantity': self.quantity,
+            'expire_date': self.expire_date,
+            'in_bank': self.in_bank,
+        }
+
     def __init__(self, donor, personnel, date, blood, quantity, expire_date, in_bank):
         """
 

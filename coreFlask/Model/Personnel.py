@@ -3,6 +3,26 @@ from Model.Base import Base
 
 
 class Personnel(Base):
+    @staticmethod
+    def new(argument):
+        """
+        :param argument:    new instance of class Personnel
+        :type argument tuple,dict
+        :return:
+        """
+        if isinstance(argument, tuple):
+            return Personnel(argument[0], argument[1], argument[2])
+        elif isinstance(argument, dict):
+            return Personnel(argument['name'], argument['email'], argument['password'])
+        raise TypeError
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'email': self.email,
+            'password': self.password
+        }
+
     def __init__(self, name, email, password):
         """
         Constructor for Personnel class
