@@ -1,4 +1,3 @@
-from Exception.OperationException import OperationException
 from Model.Base import Base
 
 
@@ -57,12 +56,5 @@ class Doctor(Base):
         return "Doctor: %-30s | email: %-30s | password: %-64s | hospital: %-30s" % \
                (self.name, self.email, self.password, self.hospital)
 
-    def get_db_insert_string(self):
-        return "CALL (Name, Email, Password, Hospital) VALUES (\'%s\',\'%s\',\'%s\',\'%s\')" % \
-               (self.name, self.email, self.password, self.hospital)
-
     def update_id(self, new_id):
         pass
-
-    def get_db_update_string(self):
-        raise OperationException('Operation not allowed!')

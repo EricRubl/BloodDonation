@@ -1,15 +1,11 @@
 import datetime
 
 from Dispatcher.DataBaseConnector import DataBaseConnector
+from Model.Base import Base
 from Model.Doctor import Doctor
 from Model.Donation import Donation
 from Model.Donor import Donor
 from Model.Hospital import Hospital
-from Model.Base import Base
-from Model.LabResult import LabResult
-from Model.Personnel import Personnel
-from Model.Request import Request
-from Model.RequestDonation import RequestDonation
 from Model.StatusUpdate import StatusUpdate
 
 

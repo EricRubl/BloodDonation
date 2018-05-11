@@ -1,6 +1,5 @@
 import datetime
 
-from Exception.OperationException import OperationException
 from Utils.BloodType import BloodType
 from Model.Base import Base
 
@@ -82,15 +81,6 @@ class Donation(Base):
                (str(self.donation_id), self.donor, self.personnel, self.date,
                 self.blood, self.quantity, str(self.expire_date), str(self.in_bank))
 
-    def get_db_insert_string(self):
-        return "INSERT INTO Donations (Donor, Personnel, Date, Blood, Quantity, ExpireDate, InBank) VALUES " \
-               "(\'%s\', \'%s\', \'%s\', \'%s\', %f, \'%s\', %s)" % \
-               (self.donor, self.personnel, self.date, BloodType.to_string[self.blood],
-                self.quantity, self.expire_date, self.in_bank)
-
     def update_id(self, new_id):
         if self.donation_id is None:
             self.donation_id = new_id
-
-    def get_db_update_string(self):
-        raise OperationException('Operation not allowed!')

@@ -1,4 +1,3 @@
-from Exception.OperationException import OperationException
 from Model.Base import Base
 
 
@@ -46,12 +45,5 @@ class RequestDonation(Base):
     def __str__(self):
         return "Request ID: %-8d | Donation ID: %-8d" % (self.request_id, self.donation_id)
 
-    def get_db_insert_string(self):
-        return "INSERT INTO RequestDonations (Request, Donation) VALUES " \
-               "(%d, %d)" % (self.request_id, self.donation_id)
-
     def update_id(self, new_id):
         pass
-
-    def get_db_update_string(self, **kwargs):
-        raise OperationException('Operation not allowed!')

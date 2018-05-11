@@ -78,17 +78,6 @@ class Request(Base):
                                                 BloodType.to_string[self.blood], self.doctor, self.quantity,
                                                 RequestStatus.to_string[self.status], str(self.date))
 
-    def get_db_insert_string(self):
-        return "INSERT INTO Requests (Priority, Blood, Doctor, Quantity, Status, Date) VALUES " \
-               "(%d, \'%s\', \'%s\', %f, %d, \'%s\')" % \
-               (self.priority, self.blood, self.doctor, self.quantity, self.status, self.date)
-
     def update_id(self, new_id):
         if self.request_id is None:
             self.request_id = new_id
-
-    def get_db_update_string(self, **kwargs):
-        res = "UPDATE Requests SET Status=%d WHERE ID=%d" % (kwargs.get('status'), kwargs.get('id'))
-        self.status = kwargs.get('status')
-        print(res)
-        return res
