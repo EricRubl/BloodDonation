@@ -3,6 +3,10 @@ from Model.Base import Base
 
 
 class Hospital(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertHospital'
+
     def to_insert_list(self):
         return [self.name, self.address]
 

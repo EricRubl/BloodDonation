@@ -3,6 +3,10 @@ from Model.Base import Base
 
 
 class RequestDonation(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertRequestDonation'
+
     def to_insert_list(self):
         return [self.request_id, self.donation_id]
 

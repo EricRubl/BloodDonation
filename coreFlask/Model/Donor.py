@@ -6,6 +6,10 @@ from Model.Base import Base
 
 
 class Donor(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertDonor'
+
     def to_insert_list(self):
         return [self.name, self.date_of_birth, self.email, self.address, self.password, self.blood]
 

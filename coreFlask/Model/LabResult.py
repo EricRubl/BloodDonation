@@ -3,6 +3,10 @@ from Model.Base import Base
 
 
 class LabResult(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertLabResult'
+
     def to_insert_list(self):
         return [self.donation_id, self.syph, self.HBV, self.HIV, self.HEV, self.HTLV]
 

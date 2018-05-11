@@ -5,6 +5,10 @@ from Model.Base import Base
 
 
 class Request(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertRequest'
+
     def to_insert_list(self):
         return [self.request_id, self.priority, self.blood, self.doctor, self.quantity, self.status, self.date]
 

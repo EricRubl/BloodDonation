@@ -3,6 +3,10 @@ from Model.Base import Base
 
 
 class Personnel(Base):
+    @staticmethod
+    def to_insert_procedure():
+        return 'InsertPersonnel'
+
     def to_insert_list(self):
         return [self.name, self.password, self.email]
 
