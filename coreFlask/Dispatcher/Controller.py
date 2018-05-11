@@ -1,9 +1,16 @@
+import datetime
+
 from Dispatcher.DataBaseConnector import DataBaseConnector
 from Model.Doctor import Doctor
 from Model.Donation import Donation
 from Model.Donor import Donor
 from Model.Hospital import Hospital
 from Model.Base import Base
+from Model.LabResult import LabResult
+from Model.Personnel import Personnel
+from Model.Request import Request
+from Model.RequestDonation import RequestDonation
+from Model.StatusUpdate import StatusUpdate
 
 
 class Controller:
@@ -49,7 +56,14 @@ class Controller:
 
         :return:
         """
-        self.db_connector.call_procedure(obj.to_insert_procedure(), obj.to_insert_list())
+        y = self.db_connector.call_procedure(obj.to_insert_procedure(), obj.to_insert_list())
+        if isinstance(y, list) and len(y) == 1:
+            # new id received
+            print(obj)
+            print(y[0][0])
+            # update id
+            obj.update_id(y[0][0])
+            print(obj)
         pass
 
 
@@ -59,5 +73,21 @@ if __name__ == '__main__':
     # ctrl.get_all_doctor()
     # ctrl.get_all_donations()
     # ctrl.get_all_hospitals()
-    x = Doctor("name", "email", "pass", "asd")
+    # x = Hospital("zxc", "qwe")
+    # x = Donation("Vlad-Dionisie Potra", "Valera", datetime.datetime.now(), "A+", 0.342,
+    #              datetime.datetime.now() + datetime.timedelta(days=3), True)
+    # x = Donor('name', (datetime.datetime.now() - datetime.timedelta(days=4000)).date(),
+    #           "email", "address", "pass", "A+")
+    # x = LabResult(11, True, False, True, False, False)
+    # ctrl.insert(x)
+    # x = LabResult(11, False, True, False, False, False)
+    # ctrl.insert(x)
+    # x = LabResult(11, False, False, True, False, False)
+    # ctrl.insert(x)
+    # x = LabResult(11, False, False, False, True, False)
+    # ctrl.insert(x)
+    # x = LabResult(11, False, False, False, False, True)
+    # x = Request(1, "A+", "Dana Bostana", 9.873, 2, datetime.datetime.now())
+    # x = RequestDonation(18, 8)
+    x = StatusUpdate(datetime.datetime.now(), 18, 0, 2, "Vitali")
     ctrl.insert(x)

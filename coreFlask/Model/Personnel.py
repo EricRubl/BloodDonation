@@ -8,7 +8,7 @@ class Personnel(Base):
         return 'InsertPersonnel'
 
     def to_insert_list(self):
-        return [self.name, self.password, self.email]
+        return [self.name, self.email, self.password]
 
     @staticmethod
     def new(argument):
