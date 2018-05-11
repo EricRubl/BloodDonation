@@ -70,7 +70,9 @@ class Base(ABC):
     @abstractmethod
     def to_insert_procedure():
         """
-
-        :return:
+        Abstract method
+        Must be implemented in all the classes that have a table in the DB
+        :return: procedure name for each insert procedure
+        :rtype: str
         """
         pass

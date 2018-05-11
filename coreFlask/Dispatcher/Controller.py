@@ -3,6 +3,7 @@ from Model.Doctor import Doctor
 from Model.Donation import Donation
 from Model.Donor import Donor
 from Model.Hospital import Hospital
+from Model.Base import Base
 
 
 class Controller:
@@ -40,8 +41,15 @@ class Controller:
             i_hospital = Hospital.new(i)
             print(i_hospital.to_dict())
 
-    def insert_hospital(self, obj):
-        self.db_connector.call_procedure("InsertHospital")
+    def insert(self, obj):
+        """
+        Inserts into the DB, using the procedures
+        :param obj:     instantiated object subclassing Base
+        :type obj:      Base
+
+        :return:
+        """
+        self.db_connector.call_procedure(obj.to_insert_procedure(), obj.to_insert_list())
         pass
 
 
@@ -51,4 +59,5 @@ if __name__ == '__main__':
     # ctrl.get_all_doctor()
     # ctrl.get_all_donations()
     # ctrl.get_all_hospitals()
-    ctrl.insert_hospital("asd")
+    x = Doctor("name", "email", "pass", "asd")
+    ctrl.insert(x)
