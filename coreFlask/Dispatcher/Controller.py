@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from Dispatcher.DataBaseConnector import DataBaseConnector
 from Model.Base import Base
@@ -6,6 +7,7 @@ from Model.Doctor import Doctor
 from Model.Donation import Donation
 from Model.Donor import Donor
 from Model.Hospital import Hospital
+from Model.Request import Request
 from Model.StatusUpdate import StatusUpdate
 
 
@@ -18,31 +20,81 @@ class Controller:
 
     def get_all_donors(self):
         query_result = self.db_connector.call_procedure("GetAllDonors")
-        print(type(query_result))
+        json_object = []
         for i in query_result:
             i_donor = Donor.new(i)
-            print(i_donor.to_dict())
+            i_dict = i_donor.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
 
-    def get_all_doctor(self):
+    def get_all_doctors(self):
         query_result = self.db_connector.call_procedure("GetAllDoctors")
-        print(type(query_result))
+        json_object = []
         for i in query_result:
             i_doctor = Doctor.new(i)
-            print(i_doctor.to_dict())
+            i_dict = i_doctor.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
 
     def get_all_donations(self):
         query_result = self.db_connector.call_procedure("GetAllDonations")
-        print(type(query_result))
+        json_object = []
         for i in query_result:
             i_donation = Donation.new(i)
-            print(i_donation.to_dict())
+            i_dict = i_donation.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
 
     def get_all_hospitals(self):
         query_result = self.db_connector.call_procedure("GetAllHospitals")
-        print(type(query_result))
+        json_object = []
         for i in query_result:
             i_hospital = Hospital.new(i)
-            print(i_hospital.to_dict())
+            i_dict = i_hospital.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_all_requests(self):
+        query_result = self.db_connector.call_procedure("GetAllRequests")
+        json_object = []
+        for i in query_result:
+            i_request = Request.new(i)
+            i_dict = i_request.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_all_status_updates(self):
+        query_result = self.db_connector.call_procedure("GetAllStatusUpdates")
+        json_object = []
+        for i in query_result:
+            i_status_update = StatusUpdate.new(i)
+            i_dict = i_status_update.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
 
     def insert(self, obj):
         """
@@ -85,5 +137,6 @@ if __name__ == '__main__':
     # x = LabResult(11, False, False, False, False, True)
     # x = Request(1, "A+", "Dana Bostana", 9.873, 2, datetime.datetime.now())
     # x = RequestDonation(18, 8)
-    x = StatusUpdate(datetime.datetime.now(), 18, 0, 2, "Vitali")
-    ctrl.insert(x)
+    # x = StatusUpdate(datetime.datetime.now(), 18, 0, 2, "Vitali")
+    # ctrl.insert(x)
+    ctrl.get_all_status_updates()
