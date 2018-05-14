@@ -33,17 +33,11 @@ class User(UserMixin):
 users = User("asd")
 
 
-# some protected url
-# @app.route('/')
-# def home_2():
-#     return Response("Nu ejti logat tata")
-
-
 @app.route('/')
-def home():
+def index():
     if current_user.is_authenticated:
         return Response("Asa mai merge wee")
-    return Response("nu esti logat")
+    return redirect('/login')
 
 
 # somewhere to login
@@ -82,7 +76,7 @@ def logout():
 # handle login failed
 @app.errorhandler(401)
 def page_not_found(e):
-    return Response('<p>Login failed</p>')
+    return Response('<p>Login failed</p> ' + str(e))
 
 
 # callback to reload the user object
