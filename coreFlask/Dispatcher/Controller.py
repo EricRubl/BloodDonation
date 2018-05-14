@@ -7,6 +7,7 @@ from Model.Doctor import Doctor
 from Model.Donation import Donation
 from Model.Donor import Donor
 from Model.Hospital import Hospital
+from Model.Personnel import Personnel
 from Model.Request import Request
 from Model.StatusUpdate import StatusUpdate
 
@@ -113,6 +114,25 @@ class Controller:
             obj.update_id(y[0][0])
             print(obj)
         pass
+
+    # LOGIN methods
+    def get_user_type(self, username, password):
+        query_result = self.db_connector.call_procedure("GetDonorByName", [username])
+        if len(query_result) == 1:
+            user = Donor.new(query_result[0]).to_dict()
+            if user['password'] == password:
+                return 'Donor'
+        query_result = self.db_connector.call_procedure("GetDoctorByName", [username])
+        if len(query_result) == 1:
+            user = Doctor.new(query_result[0]).to_dict()
+            if user['password'] == password:
+                return 'Doctor'
+        query_result = self.db_connector.call_procedure("GetPersonnelByName", [username])
+        if len(query_result) == 1:
+            user = Personnel.new(query_result[0]).to_dict()
+            if user['password'] == password:
+                return 'Personnel'
+        return None
 
 
 if __name__ == '__main__':

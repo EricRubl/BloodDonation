@@ -21,16 +21,15 @@ login_manager.login_view = "login"
 class User(UserMixin):
 
     def __init__(self, _id):
-        self.name = _id
-        self.password = _id
         self.id = _id
+        self.type = None
 
     # def __repr__(self):
     #     return "%s/%s" % (self.name, self.password)
 
 
 # create some users with ids 1 to 20
-users = User("asd")
+# users = User("asd")
 
 
 @app.route('/doc')
@@ -41,6 +40,7 @@ def doc():
 @app.route('/')
 def index():
     if current_user.is_authenticated:
+        print(current_user)
         return Response("Asa mai merge wee")
     return redirect('/login')
 
@@ -51,11 +51,27 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if password == "asd":
-            _id = username.split('/')[0]
+        user_type = ctrl.get_user_type(username, password)
+        if user_type is None:
+            return abort(401)
+        elif user_type == 'Donor':
+            _id = username
             user = User(_id)
+            user.type = 'Donor'
             login_user(user)
-            return redirect('/')
+            return redirect('/donor')
+        elif user_type == 'Doctor':
+            _id = username
+            user = User(_id)
+            user.type = 'Doctor'
+            login_user(user)
+            return redirect('/doctor')
+        elif user_type == 'Personnel':
+            _id = username
+            user = User(_id)
+            user.type = 'Personnel'
+            login_user(user)
+            return redirect('/personnel')
         else:
             return abort(401)
     else:
@@ -76,6 +92,15 @@ def logout():
         logout_user()
         return Response('<p>Logged out</p>')
     return redirect('/')
+
+
+# somewhere to logout
+@app.route("/doctor")
+# @login_required
+def doctor_dashboard():
+    if current_user.is_authenticated and current_user.type == 'Doctor':
+        return "ai ajuns unde trebe"
+    return "ai supto"
 
 
 # handle login failed
