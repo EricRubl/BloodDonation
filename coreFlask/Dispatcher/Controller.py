@@ -116,6 +116,21 @@ class Controller:
         pass
 
     # LOGIN methods
+    def get_user_password(self, username):
+        query_result = self.db_connector.call_procedure("GetDonorByName", [username])
+        if len(query_result) == 1:
+            user = Donor.new(query_result[0]).to_dict()
+            return user['password']
+        query_result = self.db_connector.call_procedure("GetDoctorByName", [username])
+        if len(query_result) == 1:
+            user = Doctor.new(query_result[0]).to_dict()
+            return user['password']
+        query_result = self.db_connector.call_procedure("GetPersonnelByName", [username])
+        if len(query_result) == 1:
+            user = Personnel.new(query_result[0]).to_dict()
+            return user['password']
+        return None
+
     def get_user_type(self, username, password):
         query_result = self.db_connector.call_procedure("GetDonorByName", [username])
         if len(query_result) == 1:

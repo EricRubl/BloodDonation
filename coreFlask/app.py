@@ -1,3 +1,4 @@
+import flask_login
 from flask import Flask, Response, request, redirect, abort
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 
@@ -20,9 +21,11 @@ login_manager.login_view = "login"
 # silly user model
 class User(UserMixin):
 
-    def __init__(self, _id):
-        self.id = _id
-        self.type = None
+    def __init__(self, name):
+        self.id = name
+        self.password = ctrl.get_user_password(self.id)
+        self.type = ctrl.get_user_type(self.id, self.password)
+        print(self.id, self.password, self.type)
 
     # def __repr__(self):
     #     return "%s/%s" % (self.name, self.password)
@@ -40,8 +43,8 @@ def doc():
 @app.route('/')
 def index():
     if current_user.is_authenticated:
-        print(current_user)
-        return Response("Asa mai merge wee")
+        return Response("Asa mai merge wee %s cu parola %s fiind un %s" %
+                        (current_user.id, current_user.password, current_user.type))
     return redirect('/login')
 
 
@@ -57,19 +60,19 @@ def login():
         elif user_type == 'Donor':
             _id = username
             user = User(_id)
-            user.type = 'Donor'
+            # user.type = 'Donor'
             login_user(user)
             return redirect('/donor')
         elif user_type == 'Doctor':
             _id = username
             user = User(_id)
-            user.type = 'Doctor'
+            # user.type = 'Doctor'
             login_user(user)
             return redirect('/doctor')
         elif user_type == 'Personnel':
             _id = username
             user = User(_id)
-            user.type = 'Personnel'
+            # user.type = 'Personnel'
             login_user(user)
             return redirect('/personnel')
         else:
