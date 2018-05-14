@@ -33,6 +33,11 @@ class User(UserMixin):
 users = User("asd")
 
 
+@app.route('/doc')
+def doc():
+    return app.send_static_file("doctor.html")
+
+
 @app.route('/')
 def index():
     if current_user.is_authenticated:
@@ -96,6 +101,8 @@ def load_user(user_id):
 @login_required
 def core_get_donors():
     return str(ctrl.get_all_donors())
+
+
 #
 #
 # @app.route('/core/get/doctors', methods=['GET'])
@@ -121,6 +128,11 @@ def core_get_donors():
 # @app.route('/core/get/status-updates', methods=['GET'])
 # def core_get_status_update():
 #     return str(ctrl.get_all_status_updates())
+
+
+@app.route('/autori')
+def autori():
+    return 'pogra & erwick'
 
 
 if __name__ == '__main__':
