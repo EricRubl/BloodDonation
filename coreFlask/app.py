@@ -1,8 +1,8 @@
-import flask_login
-from flask import Flask, Response, request, redirect, abort
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
+from flask import Flask, Response, redirect
+from flask_login import LoginManager, UserMixin, login_required, current_user
 
-from Dispatcher.Controller import Controller
+from API import AccountAPI
+from API import ctrl
 
 # from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
@@ -11,33 +11,17 @@ app.config.update(
     DEBUG=True,
     SECRET_KEY="super_secret"
 )
-ctrl = Controller()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
 
-# silly user model
 class User(UserMixin):
-
     def __init__(self, name):
         self.id = name
         self.password = ctrl.get_user_password(self.id)
         self.type = ctrl.get_user_type(self.id, self.password)
-        print(self.id, self.password, self.type)
-
-    # def __repr__(self):
-    #     return "%s/%s" % (self.name, self.password)
-
-
-# create some users with ids 1 to 20
-# users = User("asd")
-
-
-@app.route('/doc')
-def doc():
-    return app.send_static_file("doctor.html")
 
 
 @app.route('/')
@@ -51,80 +35,50 @@ def index():
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user_type = ctrl.get_user_type(username, password)
-        if user_type is None:
-            return abort(401)
-        elif user_type == 'Donor':
-            _id = username
-            user = User(_id)
-            # user.type = 'Donor'
-            login_user(user)
-            return redirect('/donor')
-        elif user_type == 'Doctor':
-            _id = username
-            user = User(_id)
-            # user.type = 'Doctor'
-            login_user(user)
-            return redirect('/doctor')
-        elif user_type == 'Personnel':
-            _id = username
-            user = User(_id)
-            # user.type = 'Personnel'
-            login_user(user)
-            return redirect('/personnel')
-        else:
-            return abort(401)
-    else:
-        return Response('''
-        <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=password name=password>
-            <p><input type=submit value=Login>
-        </form>
-        ''')
+    return AccountAPI.login_user_endpoint()
 
 
 # somewhere to logout
 @app.route("/logout")
-# @login_required
 def logout():
-    if current_user.is_authenticated:
-        logout_user()
-        return Response('<p>Logged out</p>')
-    return redirect('/')
+    return AccountAPI.logout_user_endpoint()
 
 
-# somewhere to logout
-@app.route("/doctor")
-# @login_required
-def doctor_dashboard():
-    if current_user.is_authenticated and current_user.type == 'Doctor':
-        return "ai ajuns unde trebe"
-    return "ai supto"
-
-
-# handle login failed
 @app.errorhandler(401)
 def page_not_found(e):
     return Response('<p>Login failed</p> ' + str(e))
 
 
-# callback to reload the user object
+# handle login failed
 @login_manager.user_loader
 def load_user(user_id):
-    print("In load user")
     return User(user_id)
 
 
-#
-# @app.route('/')
-# def hello_world():
-#     return 'Hello World!'
-#
-#
+@app.route("/doctor")
+# @login_required
+def doctor_dashboard():
+    if current_user.is_authenticated and current_user.type == 'Doctor':
+        return app.send_static_file("doctor.html")
+    return app.send_static_file("doctor.html")
+
+
+@app.route("/donor")
+# @login_required
+def donor_dashboard():
+    if current_user.is_authenticated and current_user.type == 'Donor':
+        return app.send_static_file("donor.html")
+    return app.send_static_file("donor.html")
+
+
+@app.route("/personnel")
+# @login_required
+def personnel_dashboard():
+    if current_user.is_authenticated and current_user.type == 'Personnel':
+        return app.send_static_file("personnel.html")
+    return app.send_static_file("personnel.html")
+
+
 @app.route('/core/get/donors', methods=['GET'])
 @login_required
 def core_get_donors():
