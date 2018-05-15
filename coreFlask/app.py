@@ -1,6 +1,4 @@
-import os
-
-from flask import Flask, Response, redirect, request, abort, send_from_directory, render_template
+from flask import Flask, Response, redirect, request, abort
 from flask_login import LoginManager, UserMixin, login_required, current_user
 
 from API import AccountAPI
@@ -62,7 +60,7 @@ def load_user(user_id):
 
 
 @app.route("/doctor")
-# @login_required
+@login_required
 def doctor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Doctor':
         return app.send_static_file("doctor.html")
@@ -70,7 +68,7 @@ def doctor_dashboard():
 
 
 @app.route("/donor")
-# @login_required
+@login_required
 def donor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Donor':
         return app.send_static_file("donor.html")
@@ -78,7 +76,7 @@ def donor_dashboard():
 
 
 @app.route("/personnel")
-# @login_required
+@login_required
 def personnel_dashboard():
     if current_user.is_authenticated and current_user.type == 'Personnel':
         return app.send_static_file("personnel.html")
@@ -113,6 +111,38 @@ def core_get_lab_result_by_donation():
     if not request.args:
         return abort(400)
     return str(ctrl.get_lab_results_by_donation(request.args['donation']))
+
+
+@app.route('/core/get/doctorbyname', methods=['GET', 'POST'])
+@login_required
+def core_get_doctor_by_name():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_doctor_by_name(request.args['name']))
+
+
+@app.route('/core/get/requestsbydoctor', methods=['GET', 'POST'])
+@login_required
+def core_get_requests_by_doctor():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_requests_by_doctor(request.args['name']))
+
+
+@app.route('/core/get/statusupdatebyrequest', methods=['GET', 'POST'])
+@login_required
+def core_get_status_update_by_request():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_status_updates_by_request(request.args['request']))
+
+
+@app.route('/core/post/updaterequestpriority', methods=['GET', 'POST'])
+@login_required
+def core_post_update_request_priority():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.update_request_priority(request.args['request'], request.args['priority']))
 
 
 #

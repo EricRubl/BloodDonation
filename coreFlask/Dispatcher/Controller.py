@@ -20,6 +20,72 @@ class Controller:
         """
         self.db_connector = DataBaseConnector()
 
+    def update_request_priority(self, request_id=None, new_priority=None):
+        query_result = self.db_connector.call_procedure("UpdateRequestPriority", [int(request_id), int(new_priority)])
+        json_object = []
+        for i in query_result:
+            i_request = Request.new(i)
+            i_dict = i_request.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    # TODO date parsing
+    def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
+        query_result = self.db_connector.call_procedure("InsertRequest", [int(priority), int(blood), doctor_name, float(quantity), int(status), datetime.datetime()])
+        json_object = []
+        for i in query_result:
+            i_status_update = StatusUpdate.new(i)
+            i_dict = i_status_update.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_status_updates_by_request(self, request_id=None):
+        query_result = self.db_connector.call_procedure("GetStatusUpdateByReqID", [int(request_id)])
+        json_object = []
+        for i in query_result:
+            i_status_update = StatusUpdate.new(i)
+            i_dict = i_status_update.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_requests_by_doctor(self, doctor_name):
+        query_result = self.db_connector.call_procedure("GetRequestsByDoctor", [doctor_name])
+        json_object = []
+        for i in query_result:
+            i_request = Request.new(i)
+            i_dict = i_request.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_doctor_by_name(self, doctor_name):
+        query_result = self.db_connector.call_procedure("GetDoctorByName", [doctor_name])
+        json_object = []
+        for i in query_result:
+            i_doctor = Doctor.new(i)
+            i_dict = i_doctor.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
     def get_lab_results_by_donation(self, donation_id):
         query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
         json_object = []
