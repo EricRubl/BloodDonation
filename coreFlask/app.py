@@ -70,7 +70,7 @@ def load_user(user_id):
 def doctor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Doctor':
         return app.send_static_file("doctor.html")
-    return app.send_static_file("doctor.html")
+    return redirect('/')
 
 
 @app.route("/donor")
@@ -78,7 +78,7 @@ def doctor_dashboard():
 def donor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Donor':
         return app.send_static_file("donor.html")
-    return app.send_static_file("donor.html")
+    return redirect('/')
 
 
 @app.route("/personnel")
@@ -86,7 +86,7 @@ def donor_dashboard():
 def personnel_dashboard():
     if current_user.is_authenticated and current_user.type == 'Personnel':
         return app.send_static_file("personnel.html")
-    return app.send_static_file("personnel.html")
+    return redirect('/')
 
 
 @app.route('/core/get/donors', methods=['GET'])
