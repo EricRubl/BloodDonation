@@ -220,10 +220,8 @@ class Controller:
         y = self.db_connector.call_procedure(obj.to_insert_procedure(), obj.to_insert_list())
         if isinstance(y, list) and len(y) == 1:
             # new id received
-            print(y[0][0])
             # update id
             obj.update_id(y[0][0])
-            print(obj)
         pass
 
     # LOGIN methods
