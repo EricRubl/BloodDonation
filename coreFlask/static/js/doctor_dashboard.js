@@ -44,6 +44,7 @@ personalInfo.controller('doctorDashboardController', function ($scope, $http)
                 $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
                         .then(function (response)
                         {
+                            console.log($scope.datasss);
                             $scope.requests = response.data;
                         });
             })
