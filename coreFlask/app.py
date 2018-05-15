@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, Response, redirect, request, abort
 from flask_login import LoginManager, UserMixin, login_required, current_user
 
@@ -25,8 +27,12 @@ class User(UserMixin):
 @app.route('/')
 def index():
     if current_user.is_authenticated:
-        return Response("Asa mai merge wee %s cu parola %s fiind un %s" %
-                        (current_user.id, current_user.password, current_user.type))
+        if current_user.type == 'Donor':
+            return redirect('/donor')
+        if current_user.type == 'Doctor':
+            return redirect('/doctor')
+        if current_user.type == 'Personnel':
+            return redirect('/personnel')
     return redirect('/login')
 
 
@@ -145,6 +151,16 @@ def core_post_update_request_priority():
     return str(ctrl.update_request_priority(request.args['request'], request.args['priority']))
 
 
+@app.route('/core/post/insertrequest', methods=['GET', 'POST'])
+@login_required
+def core_post_insert_request():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.insert_new_request(current_user.id, request.args['priority'],
+                                       request.args['blood'], request.args['quantity'],
+                                       0, datetime.datetime.now()))
+
+
 #
 #
 # @app.route('/core/get/doctors', methods=['GET'])
@@ -170,6 +186,7 @@ def core_post_update_request_priority():
 # @app.route('/core/get/status-updates', methods=['GET'])
 # def core_get_status_update():
 #     return str(ctrl.get_all_status_updates())
+
 
 if __name__ == '__main__':
     app.run(threaded=True)

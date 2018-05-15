@@ -52,7 +52,21 @@
     <form ng-submit="updatePriority()">
         Request ID <input type="text" ng-model="requestID">
         Priority <input type="text" ng-model="newPriority">
-        <input type="date" ng-model="datasss">
+        <input type="submit">
+    </form>
+    <form ng-submit="newRequest()">
+        Priority <input type="text" ng-model="requestPriority">
+        Blood Type <select ng-model="requestBloodType">
+            <option value="0">A+</option>
+            <option value="1">A-</option>
+            <option value="2">B+</option>
+            <option value="3">B-</option>
+            <option value="4">AB+</option>
+            <option value="5">AB-</option>
+            <option value="6">0+</option>
+            <option value="7">0-</option>
+        </select>
+        Quantity <input type="text" ng-model="requestQuantity">
         <input type="submit">
     </form>
 </div>

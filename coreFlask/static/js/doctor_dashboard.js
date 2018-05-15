@@ -44,9 +44,22 @@ personalInfo.controller('doctorDashboardController', function ($scope, $http)
                 $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
                         .then(function (response)
                         {
-                            console.log($scope.datasss);
                             $scope.requests = response.data;
                         });
             })
     };
+
+    $scope.newRequest = function () {
+        const postData = {};
+
+        $http.post("http://localhost:5000/core/post/insertrequest?priority=" +
+            $scope.requestPriority + "&blood=" + $scope.requestBloodType + "&quantity=" + $scope.requestQuantity,
+            postData)
+            .then(function (response) {
+                $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
+                    .then(function (response) {
+                        $scope.requests = response.data;
+                    });
+            })
+    }
 });

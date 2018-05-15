@@ -20,6 +20,7 @@ class Request(Base):
         :return:
         """
         if isinstance(argument, tuple):
+            # check blood
             new_obj = Request(argument[1], argument[2], argument[3], argument[4], argument[5], argument[6])
             new_obj.request_id = argument[0]
             return new_obj
@@ -66,17 +67,16 @@ class Request(Base):
         self.quantity = quantity
         self.date = date
 
-        #  switching to codes
-        #  todo blood conflict
+        blood = int(blood)
         self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
         self.status = RequestStatus.to_code[status] if isinstance(status, str) else status
 
     def __str__(self):
-        return "Request ID: %-8s | priority: %-8d | " \
-               "blood: %-4s | doctor: %-s | quantity: %4f |" \
-               "status: %-15s | date: %-30s" % (str(self.request_id), self.priority,
-                                                BloodType.to_string[self.blood], self.doctor, self.quantity,
-                                                RequestStatus.to_string[self.status], str(self.date))
+        return "Request ID: %-8s | priority: %-8s | " \
+               "blood: %-4d | doctor: %-30s | quantity: %-4s |" \
+               "status: %-4d | date: %-30s" % (str(self.request_id), str(self.priority),
+                                               self.blood, self.doctor, str(self.quantity),
+                                               self.status, str(self.date))
 
     def update_id(self, new_id):
         if self.request_id is None:

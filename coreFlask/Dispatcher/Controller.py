@@ -11,6 +11,7 @@ from Model.Hospital import Hospital
 from Model.Personnel import Personnel
 from Model.Request import Request
 from Model.StatusUpdate import StatusUpdate
+from Utils.BloodType import BloodType
 
 
 class Controller:
@@ -35,17 +36,22 @@ class Controller:
 
     # TODO date parsing
     def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
-        query_result = self.db_connector.call_procedure("InsertRequest", [int(priority), int(blood), doctor_name, float(quantity), int(status), datetime.datetime()])
-        json_object = []
-        for i in query_result:
-            i_status_update = StatusUpdate.new(i)
-            i_dict = i_status_update.to_dict()
-            for key in i_dict:
-                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
-                    i_dict[key] = i_dict[key].isoformat()
-            json_object.append(i_dict)
-        json_object = json.dumps(json_object, ensure_ascii=False)
-        return json_object
+        # print(blood, type(blood))
+        # blood = BloodType.to_string[int(blood)]
+        new_request = Request(priority, blood, doctor_name, quantity, status, date)
+        self.insert(new_request)
+        # self.db_connector.call_procedure("InsertRequest",
+        #                             [int(priority), blood, doctor_name, float(quantity), int(status), date])
+        # json_object = []
+        # for i in query_result:
+        #     i_request = Request.new(i)
+        #     i_dict = i_status_update.to_dict()
+        #     for key in i_dict:
+        #         if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+        #             i_dict[key] = i_dict[key].isoformat()
+        #     json_object.append(i_dict)
+        # json_object = json.dumps(json_object, ensure_ascii=False)
+        # return json_object
 
     def get_status_updates_by_request(self, request_id=None):
         query_result = self.db_connector.call_procedure("GetStatusUpdateByReqID", [int(request_id)])
@@ -214,7 +220,6 @@ class Controller:
         y = self.db_connector.call_procedure(obj.to_insert_procedure(), obj.to_insert_list())
         if isinstance(y, list) and len(y) == 1:
             # new id received
-            print(obj)
             print(y[0][0])
             # update id
             obj.update_id(y[0][0])

@@ -52,7 +52,7 @@ class Donor(Base):
         :type email: str
         :type address: str
         :type password: str
-        :type blood: str,int
+        :type blood: str
         """
         super().__init__()
         self.name = name
@@ -60,12 +60,10 @@ class Donor(Base):
         self.email = email
         self.address = address
         self.password = password  # :type int
-
-        #  switching to codes
-        self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
+        self.blood = BloodType.to_code[blood]
 
     def __str__(self):
-        return "Donor: %-30s | Date of birth: %-30s | email: %-30s | blood: %-4s" % (
+        return "Donor: %-30s | Date of birth: %-30s | email: %-30s | blood: %-4d" % (
             self.name, str(self.date_of_birth), self.email, BloodType.to_string[self.blood]
         )
 
