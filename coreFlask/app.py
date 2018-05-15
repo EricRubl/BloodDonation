@@ -1,10 +1,10 @@
-from flask import Flask, Response, redirect
+import os
+
+from flask import Flask, Response, redirect, request, abort, send_from_directory, render_template
 from flask_login import LoginManager, UserMixin, login_required, current_user
 
 from API import AccountAPI
 from API import ctrl
-
-# from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
 app = Flask(__name__)
 app.config.update(
@@ -42,6 +42,12 @@ def login():
 @app.route("/logout")
 def logout():
     return AccountAPI.logout_user_endpoint()
+
+
+@app.route('/user')
+@login_required
+def get_current_user():
+    return str(current_user.id)
 
 
 @app.errorhandler(401)
@@ -85,6 +91,30 @@ def core_get_donors():
     return str(ctrl.get_all_donors())
 
 
+@app.route('/core/get/donorbyname', methods=['GET', 'POST'])
+@login_required
+def core_get_donor_by_name():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_donor_by_name(request.args['name']))
+
+
+@app.route('/core/get/donationsbydonor', methods=['GET', 'POST'])
+@login_required
+def core_get_donations_by_donor():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_donations_by_donor(request.args['name']))
+
+
+@app.route('/core/get/labresultbydonation', methods=['GET', 'POST'])
+@login_required
+def core_get_lab_result_by_donation():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_lab_results_by_donation(request.args['donation']))
+
+
 #
 #
 # @app.route('/core/get/doctors', methods=['GET'])
@@ -110,12 +140,6 @@ def core_get_donors():
 # @app.route('/core/get/status-updates', methods=['GET'])
 # def core_get_status_update():
 #     return str(ctrl.get_all_status_updates())
-
-
-@app.route('/autori')
-def autori():
-    return 'pogra & erwick'
-
 
 if __name__ == '__main__':
     app.run(threaded=True)

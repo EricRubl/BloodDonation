@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="static/js/donor_dashboard.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Donor Deșbord</title>
 </head>
 <body>
+<div ng-app="donorDashboardApp" ng-controller="donorDashboardController" style="font-family: Calibri, sans-serif">
     <h1>Donor Deșbord</h1>
+    <ul>
+        <li>Name | {{ userInfo[0].name }}</li>
+        <li>Date of birth | {{ userInfo[0].date_of_birth }}</li>
+        <li>Email | {{ userInfo[0].email }}</li>
+        <li>Address | {{ userInfo[0].address }}</li>
+        <li>Blood | {{ userInfo[0].blood }}</li>
+    </ul>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Personnel</th>
+            <th>Date</th>
+            <th>Blood</th>
+            <th>Quantity</th>
+            <th>Expire Date</th>
+            <th>BloodBank</th>
+        </tr>
+        <tr ng-repeat="d in donations" ng-click="showLabs(d.donation_id)">
+            <td>{{ d.donation_id }}</td>
+            <td>{{ d.personnel }}</td>
+            <td>{{ d.date }}</td>
+            <td>{{ d.blood }}</td>
+            <td>{{ d.quantity }}</td>
+            <td>{{ d.expire_date }}</td>
+            <td><input type="checkbox" ng-checked="d.in_bank ? 'checked' : ''"></td>
+        </tr>
+    </table>
+
+    <ul>
+        <li ng-style="{color: labs[0].syph ? 'red' : 'green'}">Siphylis</li>
+        <li ng-style="{color: labs[0].hbv ? 'red' : 'green'}">HBV</li>
+        <li ng-style="{color: labs[0].hiv ? 'red' : 'green'}">HIV</li>
+        <li ng-style="{color: labs[0].hev ? 'red' : 'green'}">HEV</li>
+        <li ng-style="{color: labs[0].htlv ? 'red' : 'green'}">HTLV</li>
+    </ul>
+</div>
 </body>
 </html>

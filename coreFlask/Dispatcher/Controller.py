@@ -2,6 +2,7 @@ import datetime
 import json
 
 from Dispatcher.DataBaseConnector import DataBaseConnector
+from Model.LabResult import LabResult
 from Model.Base import Base
 from Model.Doctor import Doctor
 from Model.Donation import Donation
@@ -18,6 +19,45 @@ class Controller:
         TODO documentation
         """
         self.db_connector = DataBaseConnector()
+
+    def get_lab_results_by_donation(self, donation_id):
+        query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
+        json_object = []
+        for i in query_result:
+            i_lab_result = LabResult.new(i)
+            i_dict = i_lab_result.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_donations_by_donor(self, donor_name):
+        query_result = self.db_connector.call_procedure("GetDonationsByDonor", [donor_name])
+        json_object = []
+        for i in query_result:
+            i_donation = Donation.new(i)
+            i_dict = i_donation.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_donor_by_name(self, donor_name):
+        query_result = self.db_connector.call_procedure("GetDonorByName", [donor_name])
+        json_object = []
+        for i in query_result:
+            i_donor = Donor.new(i)
+            i_dict = i_donor.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
 
     def get_all_donors(self):
         query_result = self.db_connector.call_procedure("GetAllDonors")

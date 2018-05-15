@@ -6,30 +6,32 @@
     <title>Doctor Deșbord</title>
 </head>
 <body>
-    <h1>Doctor Deșbord</h1>
-    <div ng-app="myApp" ng-controller="myCtrl">
+<h1>Doctor Deșbord</h1>
+<div ng-app="myApp" ng-controller="myCtrl">
 
     <table border="1">
-         <tr ng-repeat="values in datas">
-              <td>{{values.name}}</td>
-              <td>{{values.date_of_birth}}</td>
-              <td>{{values.email}}</td>
-              <td>{{values.address}}</td>
-             <td>{{values.password}}</td>
-             <td>{{values.blood}}</td>
+        <tr ng-repeat="values in datas">
+            <td>{{ values.name }}</td>
+            <td>{{ values.date_of_birth }}</td>
+            <td>{{ values.email }}</td>
+            <td>{{ values.address }}</td>
+            <td>{{ values.password }}</td>
+            <td>{{ values.blood }}</td>
         </tr>
     </table>
 
-    </div>
+</div>
 
-    <script>
-        let app = angular.module('myApp', []);
-        app.controller('myCtrl', function($scope, $http) {
-      $http.get("http://127.0.0.1:5000/core/get/donors")
-      .then(function(response) {
-          $scope.datas = response.data;
-      });
+<script>
+    let app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http)
+    {
+        $http.get("http://127.0.0.1:5000/core/get/donors")
+            .then(function (response)
+            {
+                $scope.datas = response.data;
+            });
     });
-    </script>
+</script>
 </body>
 </html>
