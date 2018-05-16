@@ -35,10 +35,10 @@ class Request(Base):
         return {
             'request_id': self.request_id,
             'priority': self.priority,
-            'blood': self.blood,
+            'blood': BloodType.to_string[self.blood],
             'doctor': self.doctor,
             'quantity': self.quantity,
-            'status': self.status,
+            'status': RequestStatus.to_string[self.status],
             'date': self.date,
         }
 

@@ -57,7 +57,7 @@ class Donation(Base):
         :type donor: str
         :type personnel: str
         :type date: datetime.datetime
-        :type blood: str
+        :type blood: str, int
         :type quantity: float
         :type expire_date: datetime.datetime
         :type in_bank: bool
@@ -71,7 +71,7 @@ class Donation(Base):
         self.expire_date = expire_date
         self.in_bank = in_bank
 
-        self.blood = BloodType.to_code[blood]
+        self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
 
     def __str__(self):
         return "Donation ID: %-8s | donor: %-30s | " \
