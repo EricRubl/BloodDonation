@@ -1,5 +1,6 @@
 import datetime
 from Utils.BloodType import BloodType
+from Utils.Priority import Priority
 from Utils.RequestStatus import RequestStatus
 from Model.Base import Base
 
@@ -34,7 +35,7 @@ class Request(Base):
     def to_dict(self):
         return {
             'request_id': self.request_id,
-            'priority': self.priority,
+            'priority': Priority.to_string[self.priority],
             'blood': BloodType.to_string[self.blood],
             'doctor': self.doctor,
             'quantity': self.quantity,
@@ -53,7 +54,7 @@ class Request(Base):
         :param status:          must be a code of RequestStatus
         :param date:            datetime.datetime object
 
-        :type priority: int
+        :type priority: int, str
         :type blood: str, int
         :type doctor: str
         :type quantity: float
@@ -62,12 +63,12 @@ class Request(Base):
         """
         super().__init__()
         self.request_id = None
-        self.priority = priority
         self.doctor = doctor
         self.quantity = quantity
         self.date = date
 
         blood = int(blood)
+        self.priority = Priority.to_code[priority] if isinstance(priority, str) else priority
         self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
         self.status = RequestStatus.to_code[status] if isinstance(status, str) else status
 
