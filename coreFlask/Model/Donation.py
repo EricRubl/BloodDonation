@@ -37,7 +37,7 @@ class Donation(Base):
             'donor': self.donor,
             'personnel': self.personnel,
             'date': self.date,
-            'blood': self.blood,
+            'blood': BloodType.to_string[self.blood],
             'quantity': self.quantity,
             'expire_date': self.expire_date,
             'in_bank': self.in_bank,
