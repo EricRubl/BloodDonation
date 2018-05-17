@@ -221,5 +221,30 @@ def core_move_to_bank():
     return str(ctrl.move_donation_to_bank(request.args['id']))
 
 
+@app.route('/core/post/assigntorequest', methods=['GET', 'POST'])
+@login_required
+def core_assign_to_request():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.assign_donation_to_request(request.args['req'], request.args['don']))
+
+
+@app.route('/core/get/donationsofrequest', methods=['GET', 'POST'])
+@login_required
+def core_get_donations_of_request():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_donations_of_request(request.args['request']))
+
+
+@app.route('/core/post/insertdonation', methods=['GET', 'POST'])
+@login_required
+def core_insert_donation():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.insert_donation(request.args['donor'], request.args['personnel'], datetime.datetime.now(),
+                                    datetime.datetime.now() + datetime.timedelta(days=60), False))
+
+
 if __name__ == '__main__':
     app.run(threaded=True)
