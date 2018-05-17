@@ -8,25 +8,29 @@ personalInfo.controller('doctorDashboardController', function ($scope, $http, $t
         .then(function (response)
         {
             user = response.data.toString();
+
+            $http.post("http://localhost:5000/core/get/doctorbyname?name=" + user, {})
+                .then(function (response)
+                {
+                    $scope.userInfo = response.data;
+                });
+
+            getDoctorRequests();
         });
 
-    $http.post("http://localhost:5000/core/get/doctorbyname?name=" + user, postData)
-        .then(function (response)
+    function getDoctorRequests()
         {
-            $scope.userInfo = response.data;
-        });
-
-    $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
-        .then(function (response)
-        {
-            $scope.requests = response.data;
-        });
+            $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, {})
+                .then(function (response)
+                {
+                    $scope.requests = response.data;
+                    $timeout(getDoctorRequests, 5000);
+                });
+        }
 
     $scope.showStatusUpdates = function (request_id)
     {
-        const postData = {};
-
-        $http.post("http://localhost:5000/core/get/statusupdatebyrequest?request=" + request_id, postData)
+        $http.post("http://localhost:5000/core/get/statusupdatebyrequest?request=" + request_id, {})
             .then(function (response)
             {
                 $scope.status_updates = response.data;
@@ -35,9 +39,8 @@ personalInfo.controller('doctorDashboardController', function ($scope, $http, $t
 
     $scope.updatePriority = function ()
     {
-        const postData = {};
-
-        $http.post("http://localhost:5000/core/post/updaterequestpriority?request=" + $scope.requestID + "&priority=" + $scope.newPriority, postData)
+        $http.post("http://localhost:5000/core/post/updaterequestpriority?request=" + $scope.requestID + "&priority="
+            + $scope.newPriority, {})
             .then(function (response)
             {
                 notifyError(response.data.toString());
@@ -46,11 +49,8 @@ personalInfo.controller('doctorDashboardController', function ($scope, $http, $t
 
     $scope.newRequest = function ()
     {
-        const postData = {};
-
         $http.post("http://localhost:5000/core/post/insertrequest?priority=" +
-            $scope.requestPriority + "&blood=" + $scope.requestBloodType + "&quantity=" + $scope.requestQuantity,
-            postData)
+            $scope.requestPriority + "&blood=" + $scope.requestBloodType + "&quantity=" + $scope.requestQuantity, {})
             .then(function (response)
             {
                 notifyError(response.data.toString());

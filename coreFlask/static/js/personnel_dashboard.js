@@ -21,18 +21,18 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http)
                     $scope.requests = response.data;
                 });
 
-            // TODO pogra
-            // $http.get("http://localhost:5000/core/get/donationsinbank")
-            //     .then(function (response)
-            //     {
-            //         $scope.donations_in_bank = response.data;
-            //     });
-            //
-            // $http.get("http://localhost:5000/core/get/donations")
-            //     .then(function (response)
-            //     {
-            //         $scope.donations = response.data;
-            //     });
+
+            $http.get("http://localhost:5000/core/get/donationsinbank")
+                .then(function (response)
+                {
+                    $scope.donations_in_bank = response.data;
+                });
+
+            $http.get("http://localhost:5000/core/get/donations")
+                .then(function (response)
+                {
+                    $scope.donations = response.data;
+                });
         });
 
     $scope.showStatusUpdates = function (request_id)

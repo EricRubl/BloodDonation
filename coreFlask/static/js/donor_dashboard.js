@@ -14,6 +14,7 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
                 {
                     $scope.userInfo = response.data;
                 });
+
             getUserDonations();
         });
 
@@ -23,7 +24,7 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
             .then(function (response)
             {
                 $scope.donations = response.data;
-                $timeout(getUserDonations, 1000)
+                $timeout(getUserDonations, 4000);
             });
     }
 

@@ -48,12 +48,12 @@
             <th>ExpireDate</th>
         </tr>
         <tr ng-repeat="d in donations_in_bank">
-            <td>{{ r.donation_id }}</td>
-            <td>{{ r.donor }}</td>
-            <td>{{ r.personnel }}</td>
-            <td>{{ r.date }}</td>
-            <td>{{ r.blood }}</td>
-            <td>{{ r.expire_date }}</td>
+            <td>{{ d.donation_id }}</td>
+            <td>{{ d.donor }}</td>
+            <td>{{ d.personnel }}</td>
+            <td>{{ d.date }}</td>
+            <td>{{ d.blood }}</td>
+            <td>{{ d.expire_date }}</td>
         </tr>
     </table>
 
@@ -69,12 +69,13 @@
             <th>ExpireDate</th>
         </tr>
         <tr ng-repeat="d in donations">
-            <td>{{ r.donation_id }}</td>
-            <td>{{ r.donor }}</td>
-            <td>{{ r.personnel }}</td>
-            <td>{{ r.date }}</td>
-            <td>{{ r.blood }}</td>
-            <td>{{ r.expire_date }}</td>
+            <td>{{ d.donation_id }}</td>
+            <td>{{ d.donor }}</td>
+            <td>{{ d.personnel }}</td>
+            <td>{{ d.date }}</td>
+            <td>{{ d.blood }}</td>
+            <td>{{ d.expire_date }}</td>
+            <td><input type="checkbox" ng-checked="d.in_bank ? 'checked' : ''"></td>
         </tr>
     </table>
 
