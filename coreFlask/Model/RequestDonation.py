@@ -39,6 +39,12 @@ class RequestDonation(Base):
         :type donation_id int
         """
         super().__init__()
+
+        if not isinstance(request_id, int):
+            raise TypeError
+        if not isinstance(donation_id, int):
+            raise TypeError
+
         self.request_id = request_id
         self.donation_id = donation_id
 

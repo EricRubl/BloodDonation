@@ -39,6 +39,12 @@ class Hospital(Base):
         :type address str
         """
         super().__init__()
+
+        if not isinstance(name, str):
+            raise TypeError
+        if not isinstance(address, str):
+            raise TypeError
+
         self.name = name
         self.address = address
 

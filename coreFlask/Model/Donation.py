@@ -20,6 +20,7 @@ class Donation(Base):
         :return:
         """
         if isinstance(argument, tuple):
+            # must be called only with the tuple returned from the database
             new_obj = Donation(argument[1], argument[2], argument[3], argument[4], argument[5], argument[6],
                                argument[7])
             new_obj.donation_id = argument[0]
@@ -58,11 +59,29 @@ class Donation(Base):
         :type personnel: str
         :type date: datetime.datetime
         :type blood: str, int
-        :type quantity: float
+        :type quantity: int
         :type expire_date: datetime.datetime
         :type in_bank: bool
         """
         super().__init__()
+
+        if not isinstance(donor, str):
+            raise TypeError
+        if not isinstance(personnel, str):
+            raise TypeError
+        if not isinstance(date, datetime.datetime):
+            raise TypeError
+        if not isinstance(blood, str) or not isinstance(blood, int):
+            raise TypeError
+        if isinstance(blood, str) and blood not in BloodType.to_code:
+            raise TypeError
+        if not isinstance(quantity, int):
+            raise TypeError
+        if not isinstance(expire_date, datetime.datetime):
+            raise TypeError
+        if not isinstance(in_bank, bool):
+            raise TypeError
+
         self.donation_id = None
         self.donor = donor
         self.personnel = personnel

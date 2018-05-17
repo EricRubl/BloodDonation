@@ -52,6 +52,20 @@ class LabResult(Base):
         :type htlv: bool
         """
         super().__init__()
+
+        if not isinstance(donation_id, int):
+            raise TypeError
+        if not isinstance(syph, bool):
+            raise TypeError
+        if not isinstance(hbv, bool):
+            raise TypeError
+        if not isinstance(hiv, bool):
+            raise TypeError
+        if not isinstance(hev, bool):
+            raise TypeError
+        if not isinstance(htlv, bool):
+            raise TypeError
+
         self.donation_id = donation_id
         self.syph = syph
         self.HBV = hbv

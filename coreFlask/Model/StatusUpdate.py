@@ -1,3 +1,5 @@
+import datetime
+
 from Model.Base import Base
 
 
@@ -51,6 +53,18 @@ class StatusUpdate(Base):
         :type personnel_id: str
         """
         super().__init__()
+
+        if not isinstance(date, datetime.datetime):
+            raise TypeError
+        if not isinstance(request_id, int):
+            raise TypeError
+        if not isinstance(previous, int):
+            raise TypeError
+        if not isinstance(current, int):
+            raise TypeError
+        if not isinstance(personnel_id, str):
+            raise TypeError
+
         self.date = date
         self.request_id = request_id
         self.previous = previous

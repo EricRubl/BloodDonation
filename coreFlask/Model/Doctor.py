@@ -17,6 +17,7 @@ class Doctor(Base):
         :return:
         """
         if isinstance(argument, tuple):
+            # must be called only with the tuple returned from the database
             return Doctor(argument[0], argument[1], argument[2], argument[3])
         elif isinstance(argument, dict):
             return Doctor(argument['name'], argument['email'], argument['password'], argument['hospital'])
@@ -47,6 +48,16 @@ class Doctor(Base):
         :type hospital: str
         """
         super().__init__()
+
+        if not isinstance(name, str):
+            raise TypeError
+        if not isinstance(email, str):
+            raise TypeError
+        if not isinstance(password, str):
+            raise TypeError
+        if not isinstance(hospital, str):
+            raise TypeError
+
         self.name = name
         self.email = email
         self.password = password

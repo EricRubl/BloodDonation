@@ -20,6 +20,7 @@ class Donor(Base):
         :return:
         """
         if isinstance(argument, tuple):
+            # must be called only with the tuple returned from the database
             return Donor(argument[0], argument[1], argument[2], argument[3], argument[4], argument[5])
         elif isinstance(argument, dict):
             return Donor(argument['name'], argument['date_of_birth'], argument['email'], argument['address'],
@@ -55,6 +56,22 @@ class Donor(Base):
         :type blood: str, int
         """
         super().__init__()
+
+        if not isinstance(name, str):
+            raise TypeError
+        if not isinstance(date_of_birth, datetime.datetime):
+            raise TypeError
+        if not isinstance(email, str):
+            raise TypeError
+        if not isinstance(address, str):
+            raise TypeError
+        if not isinstance(password, str):
+            raise TypeError
+        if not isinstance(blood, str) or not isinstance(blood, int):
+            raise TypeError
+        if isinstance(blood, str) and blood not in BloodType.to_code:
+            raise TypeError
+
         self.name = name
         self.date_of_birth = date_of_birth
         self.email = email

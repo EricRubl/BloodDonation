@@ -62,6 +62,24 @@ class Request(Base):
         :type date: datetime.datetime
         """
         super().__init__()
+
+        if not isinstance(priority, str) or not isinstance(priority, int):
+            raise TypeError
+        if isinstance(priority, str) and priority not in Priority.to_code:
+            raise TypeError
+        if not isinstance(blood, str) or not isinstance(blood, int):
+            raise TypeError
+        if isinstance(blood, str) and blood not in BloodType.to_code:
+            raise TypeError
+        if not isinstance(doctor, str):
+            raise TypeError
+        if not isinstance(quantity, float):
+            raise TypeError
+        if not isinstance(status, str) or not isinstance(status, int):
+            raise TypeError
+        if isinstance(status, str) and status not in RequestStatus.to_code:
+            raise TypeError
+
         self.request_id = None
         self.doctor = doctor
         self.quantity = quantity

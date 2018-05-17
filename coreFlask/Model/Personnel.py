@@ -41,6 +41,14 @@ class Personnel(Base):
         :type name str
         """
         super().__init__()
+
+        if not isinstance(name, str):
+            raise TypeError
+        if not isinstance(email, str):
+            raise TypeError
+        if not isinstance(password, str):
+            raise TypeError
+
         self.name = name
         self.email = email
         self.password = password
