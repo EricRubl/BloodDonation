@@ -51,6 +51,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetRequestByID", [request_id])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_request = Request.new(i)
             i_dict = i_request.to_dict()
             for key in i_dict:
@@ -71,6 +72,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDonationsInBank")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_donation = Donation.new(i)
             i_dict = i_donation.to_dict()
             for key in i_dict:
@@ -84,6 +86,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllDonations")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_donation = Donation.new(i)
             i_dict = i_donation.to_dict()
             for key in i_dict:
@@ -97,6 +100,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetPersonnelByName", [personnel_name])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_personnel = Personnel.new(i)
             i_dict = i_personnel.to_dict()
             for key in i_dict:
@@ -135,6 +139,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetStatusUpdateByReqID", [int(request_id)])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_status_update = StatusUpdate.new(i)
             i_dict = i_status_update.to_dict()
             for key in i_dict:
@@ -148,6 +153,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetRequestsByDoctor", [doctor_name])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_request = Request.new(i)
             i_dict = i_request.to_dict()
             for key in i_dict:
@@ -161,6 +167,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDoctorByName", [doctor_name])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_doctor = Doctor.new(i)
             i_dict = i_doctor.to_dict()
             for key in i_dict:
@@ -174,6 +181,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_lab_result = LabResult.new(i)
             i_dict = i_lab_result.to_dict()
             for key in i_dict:
@@ -187,6 +195,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDonationsByDonor", [donor_name])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_donation = Donation.new(i)
             i_dict = i_donation.to_dict()
             for key in i_dict:
@@ -200,6 +209,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDonorByName", [donor_name])
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_donor = Donor.new(i)
             i_dict = i_donor.to_dict()
             for key in i_dict:
@@ -213,6 +223,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllDonors")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_donor = Donor.new(i)
             i_dict = i_donor.to_dict()
             for key in i_dict:
@@ -226,6 +237,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllDoctors")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_doctor = Doctor.new(i)
             i_dict = i_doctor.to_dict()
             for key in i_dict:
@@ -239,6 +251,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllHospitals")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_hospital = Hospital.new(i)
             i_dict = i_hospital.to_dict()
             for key in i_dict:
@@ -252,6 +265,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllRequests")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_request = Request.new(i)
             i_dict = i_request.to_dict()
             for key in i_dict:
@@ -265,6 +279,7 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllStatusUpdates")
         json_object = []
         for i in query_result:
+            print("debug:", i, type(i))
             i_status_update = StatusUpdate.new(i)
             i_dict = i_status_update.to_dict()
             for key in i_dict:

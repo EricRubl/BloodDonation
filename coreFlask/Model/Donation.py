@@ -21,9 +21,19 @@ class Donation(Base):
         """
         if isinstance(argument, tuple):
             # must be called only with the tuple returned from the database
-            new_obj = Donation(argument[1], argument[2], argument[3], argument[4], argument[5],
-                               argument[6])
-            new_obj.donation_id = argument[0]
+            donation_id = argument[0]
+            donor = argument[1]
+            personnel = argument[2]
+            date = argument[3]
+            blood = argument[4]
+            expire_date = argument[5]
+            in_bank = argument[6]
+
+            if isinstance(in_bank, int):
+                in_bank = bool(in_bank)
+
+            new_obj = Donation(donor, personnel, date, blood, expire_date, in_bank)
+            new_obj.donation_id = donation_id
             return new_obj
         elif isinstance(argument, dict):
             new_obj = Donation(argument['donor'], argument['personnel'], argument['date'], argument['blood'],

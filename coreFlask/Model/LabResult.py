@@ -17,7 +17,24 @@ class LabResult(Base):
         :return:
         """
         if isinstance(argument, tuple):
-            return LabResult(argument[0], argument[1], argument[2], argument[3], argument[4], argument[5])
+            donation_id = argument[0]
+            syph = argument[1]
+            hbv = argument[2]
+            hiv = argument[3]
+            hev = argument[4]
+            htlv = argument[5]
+
+            if isinstance(syph, int):
+                syph = bool(syph)
+            if isinstance(hbv, int):
+                hbv = bool(hbv)
+            if isinstance(hiv, int):
+                hiv = bool(hiv)
+            if isinstance(hev, int):
+                hev = bool(hev)
+            if isinstance(htlv, int):
+                htlv = bool(htlv)
+            return LabResult(donation_id, syph, hbv, hiv, hev, htlv)
         elif isinstance(argument, dict):
             return LabResult(argument['donation_id'], argument['syph'], argument['hbv'],
                              argument['hiv'], argument['hev'], argument['htlv'])
