@@ -1,4 +1,5 @@
 from unittest import TestCase
+from Dispatcher.Controller import Controller
 
 
 class TestController(TestCase):

@@ -58,6 +58,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -79,6 +80,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -93,6 +95,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -107,6 +110,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -118,22 +122,8 @@ class Controller:
 
     # TODO date parsing
     def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
-        # print(blood, type(blood))
-        # blood = BloodType.to_string[int(blood)]
         new_request = Request(priority, blood, doctor_name, quantity, status, date)
         self.insert(new_request)
-        # self.db_connector.call_procedure("InsertRequest",
-        #                             [int(priority), blood, doctor_name, float(quantity), int(status), date])
-        # json_object = []
-        # for i in query_result:
-        #     i_request = Request.new(i)
-        #     i_dict = i_status_update.to_dict()
-        #     for key in i_dict:
-        #         if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
-        #             i_dict[key] = i_dict[key].isoformat()
-        #     json_object.append(i_dict)
-        # json_object = json.dumps(json_object, ensure_ascii=False)
-        # return json_object
 
     def get_status_updates_by_request(self, request_id=None):
         query_result = self.db_connector.call_procedure("GetStatusUpdateByReqID", [int(request_id)])
@@ -146,6 +136,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -160,6 +151,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -174,6 +166,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -188,6 +181,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -202,6 +196,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -216,6 +211,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -230,6 +226,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -244,6 +241,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -258,6 +256,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -272,6 +271,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -286,6 +286,7 @@ class Controller:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
+            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -338,29 +339,17 @@ class Controller:
                 return 'Personnel'
         return None
 
+    def test(self):
+        self.get_all_requests()
+        self.get_all_hospitals()
+        self.get_all_donations()
+        self.get_all_status_updates()
+        self.get_all_donors()
+        self.get_all_doctors()
+        self.get_donations_in_bank()
+        pass
+
 
 if __name__ == '__main__':
     ctrl = Controller()
-    # ctrl.get_all_donors()
-    # ctrl.get_all_doctor()
-    # ctrl.get_all_donations()
-    # ctrl.get_all_hospitals()
-    # x = Hospital("zxc", "qwe")
-    # x = Donation("Vlad-Dionisie Potra", "Valera", datetime.datetime.now(), "A+", 0.342,
-    #              datetime.datetime.now() + datetime.timedelta(days=3), True)
-    # x = Donor('name', (datetime.datetime.now() - datetime.timedelta(days=4000)).date(),
-    #           "email", "address", "pass", "A+")
-    # x = LabResult(11, True, False, True, False, False)
-    # ctrl.insert(x)
-    # x = LabResult(11, False, True, False, False, False)
-    # ctrl.insert(x)
-    # x = LabResult(11, False, False, True, False, False)
-    # ctrl.insert(x)
-    # x = LabResult(11, False, False, False, True, False)
-    # ctrl.insert(x)
-    # x = LabResult(11, False, False, False, False, True)
-    # x = Request(1, "A+", "Dana Bostana", 9.873, 2, datetime.datetime.now())
-    # x = RequestDonation(18, 8)
-    # x = StatusUpdate(datetime.datetime.now(), 18, 0, 2, "Vitali")
-    # ctrl.insert(x)
-    ctrl.get_all_status_updates()
+    ctrl.test()
