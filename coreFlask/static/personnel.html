@@ -99,8 +99,8 @@
 
     <form ng-submit="updateRequestStatus()">
         Request ID <input type="text" ng-model="requestID">
-        Status <select ng-model="requestStatus">
-            <option value="0">OPEN</option>
+        Status <select ng-model="requestStatus" >
+            <option value="0" selected>OPEN</option>
             <option value="1">ESCALATED</option>
             <option value="2">IN_PROGRESS</option>
             <option value="3">CLOSED</option>

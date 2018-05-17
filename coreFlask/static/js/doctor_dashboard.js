@@ -1,26 +1,25 @@
 let personalInfo = angular.module('doctorDashboardApp', []);
 
-personalInfo.controller('doctorDashboardController', function ($scope, $http)
+personalInfo.controller('doctorDashboardController', function ($scope, $http, $timeout)
 {
     let user;
+
     $http.get("http://localhost:5000/user")
         .then(function (response)
         {
             user = response.data.toString();
-            const postData = {};
+        });
 
-            $http.post("http://localhost:5000/core/get/doctorbyname?name=" + user, postData)
-                .then(function (response)
-                {
-                    $scope.userInfo = response.data;
+    $http.post("http://localhost:5000/core/get/doctorbyname?name=" + user, postData)
+        .then(function (response)
+        {
+            $scope.userInfo = response.data;
+        });
 
-                    $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
-                        .then(function (response)
-                        {
-                            $scope.requests = response.data;
-                        });
-                });
-
+    $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
+        .then(function (response)
+        {
+            $scope.requests = response.data;
         });
 
     $scope.showStatusUpdates = function (request_id)
