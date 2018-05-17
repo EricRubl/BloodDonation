@@ -71,7 +71,7 @@ class Donation(Base):
             raise TypeError
         if not isinstance(date, datetime.datetime):
             raise TypeError
-        if not isinstance(blood, str) or not isinstance(blood, int):
+        if not isinstance(blood, str) and not isinstance(blood, int):
             raise TypeError
         if isinstance(blood, str) and blood not in BloodType.to_code:
             raise TypeError

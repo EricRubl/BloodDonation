@@ -67,7 +67,7 @@ class Donor(Base):
             raise TypeError
         if not isinstance(password, str):
             raise TypeError
-        if not isinstance(blood, str) or not isinstance(blood, int):
+        if not isinstance(blood, str) and not isinstance(blood, int):
             raise TypeError
         if isinstance(blood, str) and blood not in BloodType.to_code:
             raise TypeError

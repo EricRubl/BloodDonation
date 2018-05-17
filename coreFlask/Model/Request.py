@@ -63,11 +63,11 @@ class Request(Base):
         """
         super().__init__()
 
-        if not isinstance(priority, str) or not isinstance(priority, int):
+        if not isinstance(priority, str) and not isinstance(priority, int):
             raise TypeError
         if isinstance(priority, str) and priority not in Priority.to_code:
             raise TypeError
-        if not isinstance(blood, str) or not isinstance(blood, int):
+        if not isinstance(blood, str) and not isinstance(blood, int):
             raise TypeError
         if isinstance(blood, str) and blood not in BloodType.to_code:
             raise TypeError
@@ -75,7 +75,7 @@ class Request(Base):
             raise TypeError
         if not isinstance(quantity, float):
             raise TypeError
-        if not isinstance(status, str) or not isinstance(status, int):
+        if not isinstance(status, str) and not isinstance(status, int):
             raise TypeError
         if isinstance(status, str) and status not in RequestStatus.to_code:
             raise TypeError
