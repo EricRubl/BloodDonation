@@ -73,7 +73,7 @@ class StatusUpdate(Base):
 
     def __str__(self):
         return "Status update at: %-30s | previous: %-10s | current: %-10s | Request: %-8d | Personnel: %-30s" % \
-               (str(self.date), self.previous, self.current, self.request_id, self.personnel_id)
+               (self.date.isoformat(), self.previous, self.current, self.request_id, self.personnel_id)
 
     def update_id(self, new_id):
         pass

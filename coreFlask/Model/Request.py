@@ -85,7 +85,6 @@ class Request(Base):
         self.quantity = quantity
         self.date = date
 
-        blood = int(blood)
         self.priority = Priority.to_code[priority] if isinstance(priority, str) else priority
         self.blood = BloodType.to_code[blood] if isinstance(blood, str) else blood
         self.status = RequestStatus.to_code[status] if isinstance(status, str) else status
@@ -95,7 +94,7 @@ class Request(Base):
                "blood: %-4d | doctor: %-30s | quantity: %-4s |" \
                "status: %-4d | date: %-30s" % (str(self.request_id), str(self.priority),
                                                self.blood, self.doctor, str(self.quantity),
-                                               self.status, str(self.date))
+                                               self.status, self.date.isoformat())
 
     def update_id(self, new_id):
         if self.request_id is None:

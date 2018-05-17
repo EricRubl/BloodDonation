@@ -100,8 +100,8 @@ class Donation(Base):
         return "Donation ID: %-8s | donor: %-30s | " \
                "personnel: %-30s | date: %-30s | blood: %-4d " \
                "| valability: %-30s | in_bank: %s" % \
-               (str(self.donation_id), self.donor, self.personnel, self.date,
-                self.blood, str(self.expire_date), str(self.in_bank))
+               (str(self.donation_id), self.donor, self.personnel, self.date.isoformat(),
+                self.blood, self.expire_date.isoformat(), str(self.in_bank))
 
     def update_id(self, new_id):
         if self.donation_id is None:

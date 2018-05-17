@@ -81,7 +81,7 @@ class Donor(Base):
 
     def __str__(self):
         return "Donor: %-30s | Date of birth: %-30s | email: %-30s | blood: %-4d" % (
-            self.name, str(self.date_of_birth), self.email, BloodType.to_string[self.blood]
+            self.name, str(self.date_of_birth), self.email, self.blood
         )
 
     def update_id(self, new_id):
