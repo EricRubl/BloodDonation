@@ -210,7 +210,15 @@ def core_insert_lab_result():
     if not request.args:
         return abort(400)
     return str(ctrl.insert_lab_result(request.args['id'], request.args['syph'], request.args['hbv'],
-                                      request.args['hiv'], request.args['hev'], request.args['htlv'],))
+                                      request.args['hiv'], request.args['hev'], request.args['htlv']))
+
+
+@app.route('/core/post/movetobank', methods=['GET', 'POST'])
+@login_required
+def core_move_to_bank():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.move_donation_to_bank(request.args['id']))
 
 
 if __name__ == '__main__':

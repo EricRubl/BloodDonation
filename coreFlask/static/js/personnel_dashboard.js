@@ -84,12 +84,23 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http)
                 notifyError(response.data.toString());
             });
     };
+
+    $scope.moveToBank = function ()
+    {
+        const postData = {};
+
+        $http.post("http://localhost:5000/core/post/movetobank?id=" + $scope.mbID, postData)
+            .then(function (response)
+            {
+                notifyError(response.data.toString());
+            });
+    };
 });
 
 function notifyError(response)
 {
     if (response !== 'None')
     {
-        alert('Error!');
+        alert(response);
     }
 }

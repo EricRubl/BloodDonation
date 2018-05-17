@@ -121,10 +121,20 @@
     </form>
 
     <h2>Move Donation To Bank</h2>
+
     <form ng-submit="moveToBank()">
         Donation ID <input type="text" ng-model="mbID">
         <input type="submit">
     </form>
+
+    <h2>Assign Donation To Request</h2>
+
+    <form ng-submit="assignToRequest()">
+        Request ID <input type="text" ng-model="mbID">
+        Donation ID <input type="text" ng-model="mbID">
+        <input type="submit">
+    </form>
+
 </div>
 </body>
 </html>

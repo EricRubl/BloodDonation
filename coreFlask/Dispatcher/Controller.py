@@ -25,6 +25,17 @@ class Controller:
 
     def move_donation_to_bank(self, donation_id):
         try:
+            query_result = self.db_connector.call_procedure("GetDonationByID", [donation_id])
+            if len(query_result) is not 0:
+                query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
+                if len(query_result) is not 0:
+                    lab_result = LabResult.new(query_result[0])
+                    if lab_result.syph or lab_result.HBV or lab_result.HIV or lab_result.HEV or lab_result.HTLV:
+                        return 'Bad LabResult'
+                else:
+                    return 'No LabResult'
+            else:
+                return 'Invalid DonationID'
             self.db_connector.call_procedure("InsertLabResult", [donation_id])
         except mysql.connector.Error:
             return 'Error!'
