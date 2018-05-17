@@ -1,17 +1,18 @@
 import datetime
 import json
 
+import mysql.connector
+
 from Dispatcher.DataBaseConnector import DataBaseConnector
-from Model.LabResult import LabResult
 from Model.Base import Base
 from Model.Doctor import Doctor
 from Model.Donation import Donation
 from Model.Donor import Donor
 from Model.Hospital import Hospital
+from Model.LabResult import LabResult
 from Model.Personnel import Personnel
 from Model.Request import Request
 from Model.StatusUpdate import StatusUpdate
-from Utils.BloodType import BloodType
 
 
 class Controller:
@@ -21,8 +22,21 @@ class Controller:
         """
         self.db_connector = DataBaseConnector()
 
-    def update_request_priority(self, request_id=None, new_priority=None):
-        query_result = self.db_connector.call_procedure("UpdateRequestPriority", [int(request_id), int(new_priority)])
+    def move_donation_to_bank(self, donation_id):
+        try:
+            self.db_connector.call_procedure("InsertLabResult", [donation_id])
+        except mysql.connector.Error:
+            return 'Error!'
+
+    def insert_lab_result(self, donation_id, syph, hbv, hiv, hev, htlv):
+        try:
+            self.db_connector.call_procedure("InsertLabResult", [donation_id, bool(syph), bool(hbv),
+                                                                 bool(hiv), bool(hev), bool(htlv)])
+        except mysql.connector.Error:
+            return 'Error!'
+
+    def get_requests_by_id(self, request_id):
+        query_result = self.db_connector.call_procedure("GetRequestByID", [request_id])
         json_object = []
         for i in query_result:
             i_request = Request.new(i)
@@ -33,6 +47,57 @@ class Controller:
             json_object.append(i_dict)
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
+
+    def update_request_status(self, request_id=None, previous=None, current=None, personnel=None, date=None):
+        try:
+            self.db_connector.call_procedure("UpdateRequestStatus", [request_id, previous, current, personnel, date])
+        except mysql.connector.Error:
+            return 'Error!'
+
+    def get_donations_in_bank(self):
+        query_result = self.db_connector.call_procedure("GetDonationsInBank")
+        json_object = []
+        for i in query_result:
+            i_donation = Donation.new(i)
+            i_dict = i_donation.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_all_donations(self):
+        query_result = self.db_connector.call_procedure("GetAllDonations")
+        json_object = []
+        for i in query_result:
+            i_donation = Donation.new(i)
+            i_dict = i_donation.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_personnel_by_name(self, personnel_name):
+        query_result = self.db_connector.call_procedure("GetPersonnelByName", [personnel_name])
+        json_object = []
+        for i in query_result:
+            i_personnel = Personnel.new(i)
+            i_dict = i_personnel.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def update_request_priority(self, request_id=None, new_priority=None):
+        try:
+            self.db_connector.call_procedure("UpdateRequestPriority", [int(request_id), int(new_priority)])
+        except mysql.connector.Error:
+            return 'Error!'
 
     # TODO date parsing
     def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
@@ -150,19 +215,6 @@ class Controller:
         for i in query_result:
             i_doctor = Doctor.new(i)
             i_dict = i_doctor.to_dict()
-            for key in i_dict:
-                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
-                    i_dict[key] = i_dict[key].isoformat()
-            json_object.append(i_dict)
-        json_object = json.dumps(json_object, ensure_ascii=False)
-        return json_object
-
-    def get_all_donations(self):
-        query_result = self.db_connector.call_procedure("GetAllDonations")
-        json_object = []
-        for i in query_result:
-            i_donation = Donation.new(i)
-            i_dict = i_donation.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()

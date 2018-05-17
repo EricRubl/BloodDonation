@@ -1,10 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="/static/js/personnel_dashboard.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Personnel Deșbord</title>
 </head>
 <body>
-    <h1>Personnel Deșbord</h1>
+<h1>Personnel Deșbord</h1>
+<div ng-app="personnelDashboardApp" ng-controller="personnelDashboardController" style="font-family: Calibri, sans-serif">
+
+    <ul>
+        <li>Name | {{ userInfo[0].name }}</li>
+        <li>Email | {{ userInfo[0].email }}</li>
+    </ul>
+
+    <h2>Requests</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Priority</th>
+            <th>Blood</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+        <tr ng-repeat="r in requests" ng-click="showStatusUpdates(r.request_id)">
+            <td>{{ r.request_id }}</td>
+            <td>{{ r.priority }}</td>
+            <td>{{ r.blood }}</td>
+            <td>{{ r.quantity }}</td>
+            <td>{{ r.status }}</td>
+            <td>{{ r.date }}</td>
+        </tr>
+    </table>
+
+    <h2>Blood Bank</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Donor</th>
+            <th>Personnel</th>
+            <th>Date</th>
+            <th>Blood</th>
+            <th>ExpireDate</th>
+        </tr>
+        <tr ng-repeat="d in donations_in_bank">
+            <td>{{ r.donation_id }}</td>
+            <td>{{ r.donor }}</td>
+            <td>{{ r.personnel }}</td>
+            <td>{{ r.date }}</td>
+            <td>{{ r.blood }}</td>
+            <td>{{ r.expire_date }}</td>
+        </tr>
+    </table>
+
+    <h2>Donation List</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Donor</th>
+            <th>Personnel</th>
+            <th>Date</th>
+            <th>Blood</th>
+            <th>ExpireDate</th>
+        </tr>
+        <tr ng-repeat="d in donations">
+            <td>{{ r.donation_id }}</td>
+            <td>{{ r.donor }}</td>
+            <td>{{ r.personnel }}</td>
+            <td>{{ r.date }}</td>
+            <td>{{ r.blood }}</td>
+            <td>{{ r.expire_date }}</td>
+        </tr>
+    </table>
+
+    <h2>Status Updates of {{ selected_request }}</h2>
+
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Previous</th>
+            <th>Current</th>
+            <th>Personnel</th>
+        </tr>
+        <tr ng-repeat="su in status_updates">
+            <td>{{ su.date }}</td>
+            <td>{{ su.previous }}</td>
+            <td>{{ su.current }}</td>
+            <td>{{ su.personnel_id }}</td>
+        </tr>
+    </table>
+
+    <h2>Update Request Status</h2>
+
+    <form ng-submit="updateRequestStatus()">
+        Request ID <input type="text" ng-model="requestID">
+        Status <select ng-model="requestStatus">
+            <option value="0">OPEN</option>
+            <option value="1">ESCALATED</option>
+            <option value="2">IN_PROGRESS</option>
+            <option value="3">CLOSED</option>
+        </select>
+        <input type="submit">
+    </form>
+
+    <h2>Insert Lab Result</h2>
+
+    <form ng-submit="insertLabResult()">
+        Donation ID <input type="text" ng-model="idID">
+        <input type="checkbox" ng-model="idSyph"> Syphilis
+        <input type="checkbox" ng-model="idHbv"> HBV
+        <input type="checkbox" ng-model="idHiv"> HIV
+        <input type="checkbox" ng-model="idHev"> HEV
+        <input type="checkbox" ng-model="idHtlv"> HTLV
+        <input type="submit">
+    </form>
+
+    <h2>Move Donation To Bank</h2>
+    <form ng-submit="moveToBank()">
+        Donation ID <input type="text" ng-model="mbID">
+        <input type="submit">
+    </form>
+</div>
 </body>
 </html>

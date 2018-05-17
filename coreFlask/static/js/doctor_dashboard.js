@@ -41,25 +41,28 @@ personalInfo.controller('doctorDashboardController', function ($scope, $http)
         $http.post("http://localhost:5000/core/post/updaterequestpriority?request=" + $scope.requestID + "&priority=" + $scope.newPriority, postData)
             .then(function (response)
             {
-                $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
-                        .then(function (response)
-                        {
-                            $scope.requests = response.data;
-                        });
+                notifyError(response.data.toString());
             })
     };
 
-    $scope.newRequest = function () {
+    $scope.newRequest = function ()
+    {
         const postData = {};
 
         $http.post("http://localhost:5000/core/post/insertrequest?priority=" +
             $scope.requestPriority + "&blood=" + $scope.requestBloodType + "&quantity=" + $scope.requestQuantity,
             postData)
-            .then(function (response) {
-                $http.post("http://localhost:5000/core/get/requestsbydoctor?name=" + user, postData)
-                    .then(function (response) {
-                        $scope.requests = response.data;
-                    });
+            .then(function (response)
+            {
+                notifyError(response.data.toString());
             })
     }
 });
+
+function notifyError(response)
+{
+    if (response !== 'None')
+    {
+        alert('Error!');
+    }
+}

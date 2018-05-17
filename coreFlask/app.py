@@ -48,7 +48,7 @@ def logout():
     return AccountAPI.logout_user_endpoint()
 
 
-@app.route('/user')
+@app.route('/user', methods=['GET'])
 @login_required
 def get_current_user():
     return str(current_user.id)
@@ -161,31 +161,56 @@ def core_post_insert_request():
                                        0, datetime.datetime.now()))
 
 
-#
-#
-# @app.route('/core/get/doctors', methods=['GET'])
-# def core_get_doctors():
-#     return str(ctrl.get_all_doctors())
-#
-#
-# @app.route('/core/get/donations', methods=['GET'])
-# def core_get_donations():
-#     return str(ctrl.get_all_donations())
-#
-#
-# @app.route('/core/get/hospitals', methods=['GET'])
-# def core_get_hospitals():
-#     return str(ctrl.get_all_hospitals())
-#
-#
-# @app.route('/core/get/requests', methods=['GET'])
-# def core_get_requests():
-#     return str(ctrl.get_all_requests())
-#
-#
-# @app.route('/core/get/status-updates', methods=['GET'])
-# def core_get_status_update():
-#     return str(ctrl.get_all_status_updates())
+@app.route('/core/get/personnelbyname', methods=['GET', 'POST'])
+@login_required
+def core_get_personnel_by_name():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_personnel_by_name(request.args['name']))
+
+
+@app.route('/core/get/requests', methods=['GET'])
+@login_required
+def core_get_requests():
+    return str(ctrl.get_all_requests())
+
+
+@app.route('/core/get/donations', methods=['GET'])
+@login_required
+def core_get_donations():
+    return str(ctrl.get_all_donations())
+
+
+@app.route('/core/get/donationsinbank', methods=['GET'])
+@login_required
+def core_get_donations_in_bank():
+    return str(ctrl.get_donations_in_bank())
+
+
+@app.route('/core/post/updaterequeststatus', methods=['GET', 'POST'])
+@login_required
+def core_update_request_status():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.update_request_status(request.args['id'], request.args['previous'], request.args['current'],
+                                          request.args['personnel'], datetime.datetime.now()))
+
+
+@app.route('/core/get/requestbyid', methods=['GET', 'POST'])
+@login_required
+def core_get_request_by_id():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_requests_by_id(request.args['id']))
+
+
+@app.route('/core/post/insertlabresult', methods=['GET', 'POST'])
+@login_required
+def core_insert_lab_result():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.insert_lab_result(request.args['id'], request.args['syph'], request.args['hbv'],
+                                      request.args['hiv'], request.args['hev'], request.args['htlv'],))
 
 
 if __name__ == '__main__':
