@@ -50,19 +50,19 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http)
     $scope.updateRequestStatus = function ()
     {
         const postData = {};
-        let previous = 0;
+        let previous = '';
 
         $http.post("http://localhost:5000/core/get/requestbyid?id=" + $scope.requestID, postData)
             .then(function (response)
             {
-                previous = response.data[0].status
-            });
+                previous = response.data[0].status;
 
-        $http.post("http://localhost:5000/core/post/updaterequeststatus?id=" + $scope.requestID + "&previous="
-            + previous.toString() + "&current=" + $scope.requestStatus + "&personnel=" + user, postData)
-            .then(function (response)
-            {
-                notifyError(response.data.toString());
+                $http.post("http://localhost:5000/core/post/updaterequeststatus?id=" + $scope.requestID + "&previous="
+                    + previous + "&current=" + $scope.requestStatus + "&personnel=" + user, postData)
+                    .then(function (response)
+                    {
+                        notifyError(response.data.toString());
+                    });
             });
     };
 
@@ -75,6 +75,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http)
         let hiv = $scope.idHiv ? 1 : 0;
         let hev = $scope.idHev ? 1 : 0;
         let htlv = $scope.idHtlv ? 1 : 0;
+
 
         $http.post("http://localhost:5000/core/post/insertlabresult?id=" + $scope.idID + "&syph=" + syph + "&hbv="
             + hbv + "&hiv=" + hiv + "&hev=" + hev + "&htlv=" + htlv, postData)

@@ -13,6 +13,7 @@ from Model.LabResult import LabResult
 from Model.Personnel import Personnel
 from Model.Request import Request
 from Model.StatusUpdate import StatusUpdate
+from Utils.RequestStatus import RequestStatus
 
 
 class Controller:
@@ -30,8 +31,8 @@ class Controller:
 
     def insert_lab_result(self, donation_id, syph, hbv, hiv, hev, htlv):
         try:
-            self.db_connector.call_procedure("InsertLabResult", [donation_id, bool(syph), bool(hbv),
-                                                                 bool(hiv), bool(hev), bool(htlv)])
+            self.db_connector.call_procedure("InsertLabResult", [donation_id, bool(int(syph)), bool(int(hbv)),
+                                                                 bool(int(hiv)), bool(int(hev)), bool(int(htlv))])
         except mysql.connector.Error:
             return 'Error!'
 
@@ -50,7 +51,8 @@ class Controller:
 
     def update_request_status(self, request_id=None, previous=None, current=None, personnel=None, date=None):
         try:
-            self.db_connector.call_procedure("UpdateRequestStatus", [request_id, previous, current, personnel, date])
+            self.db_connector.call_procedure("UpdateRequestStatus", [request_id, RequestStatus.to_code[previous],
+                                                                     current, personnel, date])
         except mysql.connector.Error:
             return 'Error!'
 
