@@ -59,7 +59,7 @@ class Donor(Base):
 
         if not isinstance(name, str):
             raise TypeError
-        if not isinstance(date_of_birth, datetime.datetime):
+        if not isinstance(date_of_birth, datetime.date):
             raise TypeError
         if not isinstance(email, str):
             raise TypeError

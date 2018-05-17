@@ -57,7 +57,7 @@ class Request(Base):
         :type priority: int, str
         :type blood: str, int
         :type doctor: str
-        :type quantity: float
+        :type quantity: int
         :type status: str, int
         :type date: datetime.datetime
         """
@@ -73,7 +73,7 @@ class Request(Base):
             raise TypeError
         if not isinstance(doctor, str):
             raise TypeError
-        if not isinstance(quantity, float):
+        if not isinstance(quantity, int):
             raise TypeError
         if not isinstance(status, str) and not isinstance(status, int):
             raise TypeError
