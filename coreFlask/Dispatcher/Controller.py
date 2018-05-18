@@ -23,19 +23,41 @@ class Controller:
         """
         self.db_connector = DataBaseConnector()
 
+    def insert_donation(self, donor, personnel, date, expire_date, in_bank):
+        query_result = self.db_connector.call_procedure("GetDonorByName", [donor])
+        i_donor = Donor.new(query_result[0])
+        blood = i_donor.blood
+        new_donation = Donation(donor, personnel, date, blood, expire_date, in_bank)
+        self.insert(new_donation)
+
+    def get_donations_of_request(self, request_id):
+        query_result = self.db_connector.call_procedure("GetDonationsOfRequest", [request_id])
+        json_object = []
+        for i in query_result:
+            i_donation = Donation.new(i)
+            i_dict = i_donation.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def assign_donation_to_request(self, request_id, donation_id):
+        try:
+            self.db_connector.call_procedure("InsertRequestDonation", [request_id, donation_id])
+        except mysql.connector.Error:
+            return 'Error!'
+
     def move_donation_to_bank(self, donation_id):
         try:
-            query_result = self.db_connector.call_procedure("GetDonationByID", [donation_id])
+            query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
             if len(query_result) is not 0:
-                query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
-                if len(query_result) is not 0:
-                    lab_result = LabResult.new(query_result[0])
-                    if lab_result.syph or lab_result.HBV or lab_result.HIV or lab_result.HEV or lab_result.HTLV:
-                        return 'Bad LabResult'
-                else:
-                    return 'No LabResult'
+                lab_result = LabResult.new(query_result[0])
+                if lab_result.syph or lab_result.HBV or lab_result.HIV or lab_result.HEV or lab_result.HTLV:
+                    return 'Bad LabResult'
             else:
-                return 'Invalid DonationID'
+                return 'No LabResult'
             self.db_connector.call_procedure("InsertLabResult", [donation_id])
         except mysql.connector.Error:
             return 'Error!'
@@ -51,14 +73,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetRequestByID", [request_id])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_request = Request.new(i)
             i_dict = i_request.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -73,14 +93,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDonationsInBank")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_donation = Donation.new(i)
             i_dict = i_donation.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -88,14 +106,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllDonations")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_donation = Donation.new(i)
             i_dict = i_donation.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -103,14 +119,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetPersonnelByName", [personnel_name])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_personnel = Personnel.new(i)
             i_dict = i_personnel.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -120,7 +134,6 @@ class Controller:
         except mysql.connector.Error:
             return 'Error!'
 
-    # TODO date parsing
     def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
         new_request = Request(priority, blood, doctor_name, quantity, status, date)
         self.insert(new_request)
@@ -129,14 +142,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetStatusUpdateByReqID", [int(request_id)])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_status_update = StatusUpdate.new(i)
             i_dict = i_status_update.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -144,14 +155,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetRequestsByDoctor", [doctor_name])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_request = Request.new(i)
             i_dict = i_request.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -159,14 +168,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDoctorByName", [doctor_name])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_doctor = Doctor.new(i)
             i_dict = i_doctor.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -174,14 +181,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_lab_result = LabResult.new(i)
             i_dict = i_lab_result.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -189,14 +194,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDonationsByDonor", [donor_name])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_donation = Donation.new(i)
             i_dict = i_donation.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -204,14 +207,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetDonorByName", [donor_name])
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_donor = Donor.new(i)
             i_dict = i_donor.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -219,14 +220,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllDonors")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_donor = Donor.new(i)
             i_dict = i_donor.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -234,14 +233,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllDoctors")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_doctor = Doctor.new(i)
             i_dict = i_doctor.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -249,14 +246,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllHospitals")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_hospital = Hospital.new(i)
             i_dict = i_hospital.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -264,14 +259,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllRequests")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_request = Request.new(i)
             i_dict = i_request.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 
@@ -279,14 +272,12 @@ class Controller:
         query_result = self.db_connector.call_procedure("GetAllStatusUpdates")
         json_object = []
         for i in query_result:
-            print("debug:", i, type(i))
             i_status_update = StatusUpdate.new(i)
             i_dict = i_status_update.to_dict()
             for key in i_dict:
                 if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
                     i_dict[key] = i_dict[key].isoformat()
             json_object.append(i_dict)
-            print("debug:", i_dict, type(i_dict))
         json_object = json.dumps(json_object, ensure_ascii=False)
         return json_object
 

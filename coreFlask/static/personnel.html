@@ -7,8 +7,8 @@
     <title>Personnel Deșbord</title>
 </head>
 <body>
-<h1>Personnel Deșbord</h1>
 <div ng-app="personnelDashboardApp" ng-controller="personnelDashboardController" style="font-family: Calibri, sans-serif">
+    <h1>Personnel Deșbord</h1>
 
     <ul>
         <li>Name | {{ userInfo[0].name }}</li>
@@ -96,6 +96,27 @@
         </tr>
     </table>
 
+    <h2>Donations of {{ selected_request }}</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Donor</th>
+            <th>Personnel</th>
+            <th>Date</th>
+            <th>Blood</th>
+            <th>ExpireDate</th>
+        </tr>
+        <tr ng-repeat="d in request_donations">
+            <td>{{ d.donation_id }}</td>
+            <td>{{ d.donor }}</td>
+            <td>{{ d.personnel }}</td>
+            <td>{{ d.date }}</td>
+            <td>{{ d.blood }}</td>
+            <td>{{ d.expire_date }}</td>
+        </tr>
+    </table>
+
     <h2>Update Request Status</h2>
 
     <form ng-submit="updateRequestStatus()">
@@ -131,8 +152,15 @@
     <h2>Assign Donation To Request</h2>
 
     <form ng-submit="assignToRequest()">
-        Request ID <input type="text" ng-model="mbID">
-        Donation ID <input type="text" ng-model="mbID">
+        Request ID <input type="text" ng-model="atrReq">
+        Donation ID <input type="text" ng-model="atrDon">
+        <input type="submit">
+    </form>
+
+    <h2>Insert Donation</h2>
+
+    <form ng-submit="insertDonation()">
+        Donor <input type="text" ng-model="indDon">
         <input type="submit">
     </form>
 
