@@ -58,3 +58,14 @@ class Personnel(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.name == self.name and \
+                    other.email == self.email and \
+                    other.password == self.password:
+                return True
+            return False
+        except Exception:
+            return False

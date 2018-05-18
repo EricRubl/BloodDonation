@@ -69,3 +69,15 @@ class Doctor(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.name == self.name and \
+                    other.email == self.email and \
+                    other.password == self.password and \
+                    other.hospital == self.hospital:
+                return True
+            return False
+        except Exception:
+            return False

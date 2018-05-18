@@ -53,3 +53,13 @@ class RequestDonation(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.request_id == self.request_id and \
+                    other.donation_id == self.donation_id:
+                return True
+            return False
+        except Exception:
+            return False

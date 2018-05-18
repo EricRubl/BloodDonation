@@ -134,3 +134,17 @@ class LabResult(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.donation_id == self.donation_id and \
+                    other.syph == self.syph and \
+                    other.HBV == self.HBV and \
+                    other.HIV == self.HIV and \
+                    other.HEV == self.HEV and \
+                    other.HTLV == self.HTLV:
+                return True
+            return False
+        except Exception:
+            return False

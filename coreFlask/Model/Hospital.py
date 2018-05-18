@@ -53,3 +53,12 @@ class Hospital(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if self.name == other.name and self.address == other.address:
+                return True
+            return False
+        except Exception:
+            return False

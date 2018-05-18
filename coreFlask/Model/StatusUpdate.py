@@ -77,3 +77,17 @@ class StatusUpdate(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.date == self.date and \
+                    other.request_id == self.request_id and \
+                    other.previous == self.previous and \
+                    other.current == self.current and \
+                    other.personnel_id == self.personnel_id:
+                return True
+            return False
+        except Exception:
+            return False
+

@@ -106,3 +106,17 @@ class Donation(Base):
     def update_id(self, new_id):
         if self.donation_id is None:
             self.donation_id = new_id
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.donation_id == self.donation_id and \
+                    other.donor == self.donor and \
+                    other.personnel == self.personnel and \
+                    other.date == self.date and \
+                    other.expire_date == self.expire_date and \
+                    other.in_bank == self.in_bank:
+                return True
+            return False
+        except Exception:
+            return False

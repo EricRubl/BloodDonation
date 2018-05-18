@@ -86,3 +86,17 @@ class Donor(Base):
 
     def update_id(self, new_id):
         pass
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.name == self.name and \
+                    other.date_of_birth == self.date_of_birth and \
+                    other.email == self.email and \
+                    other.address == self.address and \
+                    other.password == self.password and \
+                    other.blood == self.blood:
+                return True
+            return False
+        except Exception:
+            return False

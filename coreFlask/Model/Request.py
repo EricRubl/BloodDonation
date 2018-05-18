@@ -99,3 +99,18 @@ class Request(Base):
     def update_id(self, new_id):
         if self.request_id is None:
             self.request_id = new_id
+
+    def __eq__(self, other):
+        # noinspection PyBroadException
+        try:
+            if other.request_id == self.request_id and \
+                    other.priority == self.priority and \
+                    other.blood == self.blood and \
+                    other.doctor == self.doctor and \
+                    other.quantity == self.quantity and \
+                    other.status == self.status and \
+                    other.date == self.date:
+                return True
+            return False
+        except Exception:
+            return False
