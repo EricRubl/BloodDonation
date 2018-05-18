@@ -58,9 +58,9 @@ class Controller:
                     return 'Bad LabResult'
             else:
                 return 'No LabResult'
-            self.db_connector.call_procedure("InsertLabResult", [donation_id])
-        except mysql.connector.Error:
-            return 'Error!'
+            self.db_connector.call_procedure("MoveDonationToBank", [donation_id])
+        except mysql.connector.Error as ex:
+            return ex
 
     def insert_lab_result(self, donation_id, syph, hbv, hiv, hev, htlv):
         try:
@@ -135,7 +135,7 @@ class Controller:
             return 'Error!'
 
     def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
-        new_request = Request(priority, blood, doctor_name, quantity, status, date)
+        new_request = Request(int(priority), int(blood), doctor_name, int(quantity), status, date)
         self.insert(new_request)
 
     def get_status_updates_by_request(self, request_id=None):
