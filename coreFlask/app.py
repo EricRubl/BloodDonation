@@ -77,7 +77,7 @@ def doctor_dashboard():
 @login_required
 def donor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Donor':
-        return app.send_static_file("donor.html")
+        return app.send_static_file("donor/index.html")
     return redirect('/')
 
 
