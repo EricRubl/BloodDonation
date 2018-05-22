@@ -46,5 +46,4 @@ def login_user_endpoint():
 def logout_user_endpoint():
     if current_user.is_authenticated:
         logout_user()
-        return Response('<p>Logged out</p>')
     return redirect('/')

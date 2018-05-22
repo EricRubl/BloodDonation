@@ -69,6 +69,7 @@ def load_user(user_id):
 def get_favicon():
     return app.send_static_file("favicon.ico")
 
+
 @app.route("/doctor")
 @login_required
 def doctor_dashboard():
