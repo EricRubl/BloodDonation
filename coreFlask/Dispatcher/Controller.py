@@ -176,6 +176,8 @@ class Controller:
 
     def get_lab_results_by_donation(self, donation_id):
         query_result = self.db_connector.call_procedure("GetLabResultByDonation", [donation_id])
+        if len(query_result) == 0:
+            return 'nolabs'
         json_object = []
         for i in query_result:
             i_lab_result = LabResult.new(i)

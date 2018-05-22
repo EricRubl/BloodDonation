@@ -30,12 +30,19 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
 
     $scope.showLabs = function (donation_id)
     {
-        const postData = {};
-
-        $http.post("http://localhost:5000/core/get/labresultbydonation?donation=" + donation_id, postData)
+        $http.post("http://localhost:5000/core/get/labresultbydonation?donation=" + donation_id, {})
             .then(function (response)
             {
-                $scope.labs = response.data;
+                console.log(response.data);
+                if(response.data === 'nolabs')
+                    $scope.has_labs = false;
+                else
+                {
+                    $scope.labs = response.data;
+                    $scope.has_labs = true;
+                }
+
+
             });
     }
 });
