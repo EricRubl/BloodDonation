@@ -56,33 +56,3 @@ class DataBaseConnector:
             # Successfully executed the insert
             cnx.close()
         return return_obj
-
-    def test(self):
-        # h = Hospital("asdasdasd", "zxczxczxc")
-        # d = Donor("zxcasd", datetime.date(year=2010, month=2, day=15), "eee", "address", "asdasdasdasd", 1)
-        # d = Doctor("name", "email", "password", "SJU Cluj")
-        # l = Personnel("Valera", "asdasdzxc", "vyvghhbuihyutvgyh")
-        # d = Donation("Vlad-Dionisie Potra", "Valera", datetime.datetime.now(), "A+", 12.23,
-        #              datetime.datetime.now() + datetime.timedelta(days=365))
-        # l = LabResult(8, True, True, False, True, False)
-
-        # r = Request(2, 2, "Dana Bostana", 11.32, 2, datetime.datetime.now())
-        # x = RequestDonation(17, 8)
-        # x = StatusUpdate(datetime.datetime.now(), 17, 0, 3, "Valera")
-        # self.insert(r)
-        # print(r)
-        # res = self.call_procedure("GetAllDoctors")
-        # final_res = []
-        # for i in res:
-        #     final_res.append(Doctor(i[0], i[1], i[2], i[3]))
-        # for i in final_res:
-        #     print(i)
-
-        # print(x)
-        # self.insert(x)
-        # print(x)
-        pass
-
-
-# x123 = DataBaseConnector()
-# x123.test()

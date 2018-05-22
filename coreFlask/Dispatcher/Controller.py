@@ -18,9 +18,6 @@ from Utils.RequestStatus import RequestStatus
 
 class Controller:
     def __init__(self):
-        """
-        TODO documentation
-        """
         self.db_connector = DataBaseConnector()
 
     def insert_donation(self, donor, personnel, date, expire_date, in_bank):
@@ -66,8 +63,8 @@ class Controller:
         try:
             self.db_connector.call_procedure("InsertLabResult", [donation_id, bool(int(syph)), bool(int(hbv)),
                                                                  bool(int(hiv)), bool(int(hev)), bool(int(htlv))])
-        except mysql.connector.Error:
-            return 'Error!'
+        except mysql.connector.Error as ex:
+            return ex
 
     def get_requests_by_id(self, request_id):
         query_result = self.db_connector.call_procedure("GetRequestByID", [request_id])
