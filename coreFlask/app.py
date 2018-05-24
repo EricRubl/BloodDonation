@@ -82,6 +82,11 @@ def get_current_user():
     return str(current_user.id)
 
 
+@app.route('/forgot')
+def forgot_password():
+    return app.send_static_file('dashboard/forgot.html')
+
+
 @app.route('/register')
 def register_new_donor():
     return app.send_static_file('dashboard/register.html')
@@ -322,6 +327,11 @@ def core_insert_donor():
     ctrl.insert_donor(a['name'], datetime.date(year=int(a['y']), month=int(a['m']), day=int(a['d'])), a['email'], a['addr'], a['pass'],
                       a['blood'])
     return redirect('/')
+
+
+@app.route('/core/post/forgotpassword', methods=['GET', 'POST'])
+def forgot_pass_request():
+    return 'err'
 
 
 if __name__ == '__main__':
