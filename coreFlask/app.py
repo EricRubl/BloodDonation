@@ -7,10 +7,7 @@ from API import AccountAPI
 from API import ctrl
 
 app = Flask(__name__)
-app.config.update(
-    DEBUG=True,
-    SECRET_KEY="super_secret"
-)
+app.config.update(DEBUG=True, SECRET_KEY="super_secret")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -59,6 +56,16 @@ def page_not_found(e):
     return Response('<p>Login failed</p> ' + str(e))
 
 
+@app.errorhandler(404)
+def page_not_found_404(e):
+    return app.send_static_file('404/index.html')
+
+
+@app.errorhandler(500)
+def http_500(e):
+    return app.send_static_file('500/index.html')
+
+
 # handle login failed
 @login_manager.user_loader
 def load_user(user_id):
@@ -82,7 +89,7 @@ def doctor_dashboard():
 @login_required
 def donor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Donor':
-        return app.send_static_file("donor/index.html")
+        return app.send_static_file("dashboard/donor.html")
     return redirect('/')
 
 
@@ -90,7 +97,7 @@ def donor_dashboard():
 @login_required
 def personnel_dashboard():
     if current_user.is_authenticated and current_user.type == 'Personnel':
-        return app.send_static_file("personnel.html")
+        return app.send_static_file("dashboard/personnel.html")
     return redirect('/')
 
 
@@ -249,6 +256,26 @@ def core_insert_donation():
         return abort(400)
     return str(ctrl.insert_donation(request.args['donor'], request.args['personnel'], datetime.datetime.now(),
                                     datetime.datetime.now() + datetime.timedelta(days=60), False))
+
+
+@app.route('/core/get/donationswithoutlabs', methods=['GET'])
+@login_required
+def core_get_donations_without_labs():
+    return str(ctrl.get_donations_without_labs())
+
+
+@app.route('/core/get/readyforbank', methods=['GET'])
+@login_required
+def core_get_ready_for_bank():
+    return str(ctrl.get_ready_for_bank())
+
+
+@app.route('/core/get/readyforrequest', methods=['GET', 'POST'])
+@login_required
+def core_get_ready_for_request():
+    if not request.args:
+        return abort(400)
+    return str(ctrl.get_ready_for_request(request.args['id']))
 
 
 if __name__ == '__main__':

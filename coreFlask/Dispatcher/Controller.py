@@ -20,7 +20,22 @@ class Controller:
     def __init__(self):
         self.db_connector = DataBaseConnector()
 
+    def get_donations_without_labs(self):
+        query_result = self.db_connector.call_procedure("GetDonationsWithoutLabs")
+        json_object = []
+        for i in query_result:
+            i_donation = Donation.new(i)
+            i_dict = i_donation.to_dict()
+            for key in i_dict:
+                if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                    i_dict[key] = i_dict[key].isoformat()
+            json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
     def insert_donation(self, donor, personnel, date, expire_date, in_bank):
+        if donor == 'null':
+            return
         query_result = self.db_connector.call_procedure("GetDonorByName", [donor])
         i_donor = Donor.new(query_result[0])
         blood = i_donor.blood
@@ -29,6 +44,8 @@ class Controller:
 
     def get_donations_of_request(self, request_id):
         query_result = self.db_connector.call_procedure("GetDonationsOfRequest", [request_id])
+        if len(query_result) == 0:
+            return 'no'
         json_object = []
         for i in query_result:
             i_donation = Donation.new(i)
@@ -44,7 +61,43 @@ class Controller:
         try:
             self.db_connector.call_procedure("InsertRequestDonation", [request_id, donation_id])
         except mysql.connector.Error:
-            return 'Error!'
+            return
+
+    def get_ready_for_request(self, request_id):
+        if request_id == 'null':
+            return '{}'
+        query_result = self.db_connector.call_procedure("GetRequestByID", [request_id])
+        json_object = []
+        i_request = Request.new(query_result[0])
+        query_result = self.db_connector.call_procedure("GetDonationsInBank")
+        for i in query_result:
+            i_donation = Donation.new(i)
+            if i_donation.blood == i_request.blood:
+                i_dict = i_donation.to_dict()
+                for key in i_dict:
+                    if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                        i_dict[key] = i_dict[key].isoformat()
+                json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
+
+    def get_ready_for_bank(self):
+        query_result = self.db_connector.call_procedure("GetAllDonations")
+        json_object = []
+        for i in query_result:
+            i_donation = Donation.new(i)
+            if not i_donation.in_bank:
+                query_result_sec = self.db_connector.call_procedure("GetLabResultByDonation", [i_donation.donation_id])
+                if len(query_result_sec) is not 0:
+                    lab_result = LabResult.new(query_result_sec[0])
+                    if not (lab_result.syph or lab_result.HBV or lab_result.HIV or lab_result.HEV or lab_result.HTLV):
+                        i_dict = i_donation.to_dict()
+                        for key in i_dict:
+                            if isinstance(i_dict[key], datetime.datetime) or isinstance(i_dict[key], datetime.date):
+                                i_dict[key] = i_dict[key].isoformat()
+                        json_object.append(i_dict)
+        json_object = json.dumps(json_object, ensure_ascii=False)
+        return json_object
 
     def move_donation_to_bank(self, donation_id):
         try:
@@ -56,17 +109,19 @@ class Controller:
             else:
                 return 'No LabResult'
             self.db_connector.call_procedure("MoveDonationToBank", [donation_id])
-        except mysql.connector.Error as ex:
-            return ex
+        except mysql.connector.Error:
+            return
 
     def insert_lab_result(self, donation_id, syph, hbv, hiv, hev, htlv):
         try:
             self.db_connector.call_procedure("InsertLabResult", [donation_id, bool(int(syph)), bool(int(hbv)),
                                                                  bool(int(hiv)), bool(int(hev)), bool(int(htlv))])
-        except mysql.connector.Error as ex:
-            return ex
+        except mysql.connector.Error:
+            return
 
     def get_requests_by_id(self, request_id):
+        if request_id == 'null':
+            return
         query_result = self.db_connector.call_procedure("GetRequestByID", [request_id])
         json_object = []
         for i in query_result:
@@ -80,11 +135,13 @@ class Controller:
         return json_object
 
     def update_request_status(self, request_id=None, previous=None, current=None, personnel=None, date=None):
+        if previous == 'undefined' or current == 'null':
+            return
         try:
             self.db_connector.call_procedure("UpdateRequestStatus", [request_id, RequestStatus.to_code[previous],
                                                                      current, personnel, date])
         except mysql.connector.Error:
-            return 'Error!'
+            return
 
     def get_donations_in_bank(self):
         query_result = self.db_connector.call_procedure("GetDonationsInBank")
@@ -137,6 +194,8 @@ class Controller:
 
     def get_status_updates_by_request(self, request_id=None):
         query_result = self.db_connector.call_procedure("GetStatusUpdateByReqID", [int(request_id)])
+        if len(query_result) == 0:
+            return 'no'
         json_object = []
         for i in query_result:
             i_status_update = StatusUpdate.new(i)

@@ -1,0 +1,362 @@
+<!DOCTYPE HTML>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="static/js/personnel_dashboard.js"></script>
+<head>
+    <title>FLOW.</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="static/donor/assets/css/main.css"/>
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+
+<!-- Page Wrapper -->
+<div id="page-wrapper" ng-app="personnelDashboardApp" ng-controller="personnelDashboardController">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <h1><a href="index.html">FLOW.</a></h1>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+    <!-- Menu -->
+    <nav id="menu">
+        <div class="inner">
+            <h2>Menu</h2>
+            <ul class="links">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+            <a href="#" class="close">Close</a>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <div class="logo"><span class="icon fa-tint"></span></div>
+            <h2>Welcome to FLOW.</h2>
+            <p>mesaj inspirational</p>
+        </div>
+    </section>
+
+    <!-- Wrapper -->
+    <section id="wrapper">
+
+        <!-- One -->
+        <section id="one" class="wrapper spotlight style1">
+            <div class="inner">
+                <a class="image"><img src="static/donor/images/bloody.png" alt=""/></a>
+                <div class="content">
+                    <h2 class="major">{{ userInfo[0].name }}</h2>
+                    <p>BLOOD TRANSFUSION CENTER</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section id="banner">
+        <div class="inner">
+            <h3 class="major">Requests</h3>
+            <div class="table-wrapper">
+                <table class="alt">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Priority</th>
+                        <th>Blood</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in requests" ng-click="showStatusUpdates(r.request_id)">
+                        <td>{{ r.request_id }}</td>
+                        <td>{{ r.priority }}</td>
+                        <td>{{ r.blood }}</td>
+                        <td>{{ r.quantity }}</td>
+                        <td>{{ r.status }}</td>
+                        <td>{{ r.date }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-style="{visibility: has_updates ? 'visible' : 'hidden'}">
+                    <h3 class="major">Status Updates of request {{ selected_request }}</h3>
+
+                    <table class="alt">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Previous</th>
+                            <th>Current</th>
+                            <th>Personnel</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="su in status_updates">
+                            <td>{{ su.date }}</td>
+                            <td>{{ su.previous }}</td>
+                            <td>{{ su.current }}</td>
+                            <td>{{ su.personnel_id }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-style="{visibility: has_donations ? 'visible' : 'hidden'}">
+                    <h3 class="major">Donations of request {{ selected_request }}</h3>
+
+                    <table class="alt">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Donor</th>
+                            <th>Personnel</th>
+                            <th>Date</th>
+                            <th>Blood</th>
+                            <th>ExpireDate</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="d in request_donations">
+                            <td>{{ d.donation_id }}</td>
+                            <td>{{ d.donor }}</td>
+                            <td>{{ d.personnel }}</td>
+                            <td>{{ d.date }}</td>
+                            <td>{{ d.blood }}</td>
+                            <td>{{ d.expire_date }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="major">Blood Bank</h3>
+
+                <table class="alt">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Donor</th>
+                        <th>Personnel</th>
+                        <th>Date</th>
+                        <th>Blood</th>
+                        <th>ExpireDate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="d in donations_in_bank">
+                        <td>{{ d.donation_id }}</td>
+                        <td>{{ d.donor }}</td>
+                        <td>{{ d.personnel }}</td>
+                        <td>{{ d.date }}</td>
+                        <td>{{ d.blood }}</td>
+                        <td>{{ d.expire_date }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="major">Donations</h3>
+
+                <table class="alt">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Donor</th>
+                        <th>Personnel</th>
+                        <th>Date</th>
+                        <th>Blood</th>
+                        <th>ExpireDate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="d in donations">
+                        <td>{{ d.donation_id }}</td>
+                        <td>{{ d.donor }}</td>
+                        <td>{{ d.personnel }}</td>
+                        <td>{{ d.date }}</td>
+                        <td>{{ d.blood }}</td>
+                        <td>{{ d.expire_date }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="major">Update Request Status</h3>
+
+            <form ng-submit="updateRequestStatus()">
+                <div class="row uniform">
+                    <div class="6u 12u$(xsmall)">
+                        <label>Request</label>
+                        <div class="select-wrapper">
+                            <select ng-model="requestID">
+                                <option value="" selected disabled hidden>Choose a request</option>
+                                <option ng-repeat="r in requests" value="{{ r.request_id }}">{{ r.request_id }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="6u 12u$(xsmall)">
+                        <label>Status</label>
+                        <div class="select-wrapper">
+                            <select ng-model="requestStatus">
+                                <option value="" selected disabled hidden>Choose a status</option>
+                                <option value="0">OPEN</option>
+                                <option value="1">ESCALATED</option>
+                                <option value="2">IN_PROGRESS</option>
+                                <option value="3">CLOSED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li><input type="submit" value="Update" class="special"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <h3 class="major">Insert Lab Result</h3>
+
+            <form ng-submit="insertLabResult()">
+                <div class="row uniform">
+                    <div class="12u$">
+                        <label>Donation</label>
+                        <div class="select-wrapper">
+                            <select ng-model="idID">
+                                <option value="" selected disabled hidden>Choose a donation</option>
+                                <option ng-repeat="d in no_labs"
+                                        value="{{ d.donation_id }}">{{ d.donation_id }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="4u 12u$(small)">
+                        <input type="checkbox" ng-model="idSyph" id="ch_syph">
+                        <label for="ch_syph">Syphilis</label>
+                    </div>
+                    <div class="4u 12u$(small)">
+                        <input type="checkbox" ng-model="idHbv" id="ch_hbv">
+                        <label for="ch_hbv">HBV</label>
+                    </div>
+                    <div class="4u 12u$(small)">
+                        <input type="checkbox" ng-model="idHiv" id="ch_hiv">
+                        <label for="ch_hiv">HIV</label>
+                    </div>
+                    <div class="4u 12u$(small)">
+                        <input type="checkbox" ng-model="idHev" id="ch_hev">
+                        <label for="ch_hev">HEV</label>
+                    </div>
+                    <div class="4u 12u$(small)">
+                        <input type="checkbox" ng-model="idHtlv" id="ch_htlv">
+                        <label for="ch_htlv">HTLV</label>
+                    </div>
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li><input type="submit" value="Insert" class="special"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <h3 class="major">Move donation to bank</h3>
+
+            <form ng-submit="moveToBank()">
+                <div class="row uniform">
+                    <div class="12u$">
+                        <label>Donation</label>
+                        <div class="select-wrapper">
+                            <select ng-model="mbID">
+                                <option value="" selected disabled hidden>Choose a donation</option>
+                                <option ng-repeat="d in ready_for_bank"
+                                        value="{{ d.donation_id }}">{{ d.donation_id }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li><input type="submit" value="Move to bank" class="special"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <h3 class="major">Assign Donation To request</h3>
+
+            <form ng-submit="assignToRequest()">
+                <div class="row uniform">
+                    <div class="6u 12u$(xsmall)">
+                        <label>Request</label>
+                        <div class="select-wrapper">
+                            <select ng-model="atrReq">
+                                <option value="" selected disabled hidden>Choose a request</option>
+                                <option ng-repeat="r in requests" value="{{ r.request_id }}">{{ r.request_id }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="6u 12u$(xsmall)">
+                        <label>Request</label>
+                        <div class="select-wrapper">
+                            <select ng-model="atrDon">
+                                <option value="" selected disabled hidden>Choose a donation</option>
+                                <option ng-repeat="d in ready_for_request"
+                                        value="{{ d.donation_id }}">{{ d.donation_id }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li><input type="submit" value="Assign to request" class="special"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <h3 class="major">INsert donation</h3>
+
+            <form ng-submit="insertDonation()">
+                <div class="row uniform">
+                    <div class="12u$">
+                        <label>Donor</label>
+                        <div class="select-wrapper">
+                            <select ng-model="indDon">
+                                <option value="" selected disabled hidden>Choose a donor</option>
+                                <option ng-repeat="d in donors" value="{{ d.name }}">{{ d.name }}
+                                    | {{ d.blood }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li><input type="submit" value="Insert" class="special"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <section id="footer">
+        <div class="inner">
+            <ul class="copyright">
+                <li>&copy; Zario Software 2018</li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="static/donor/assets/js/skel.min.js"></script>
+<script src="static/donor/assets/js/jquery.min.js"></script>
+<script src="static/donor/assets/js/jquery.scrollex.min.js"></script>
+<script src="static/donor/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="static/donor/assets/js/main.js"></script>
+
+</body>
+</html>

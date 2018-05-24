@@ -38,6 +38,30 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
                 $scope.donations = response.data;
             });
 
+        $http.get("http://localhost:5000/core/get/donationswithoutlabs")
+            .then(function (response)
+            {
+                $scope.no_labs = response.data;
+            });
+
+        $http.get("http://localhost:5000/core/get/readyforbank")
+            .then(function (response)
+            {
+                $scope.ready_for_bank = response.data;
+            });
+
+        $http.get("http://localhost:5000/core/get/donors")
+            .then(function (response)
+            {
+                $scope.donors = response.data;
+            });
+
+        $http.post("http://localhost:5000/core/get/readyforrequest?id=" + $scope.atrReq, {})
+            .then(function (response)
+            {
+                $scope.ready_for_request = response.data;
+            });
+
         $timeout(fetchData, 5000);
     }
 
@@ -46,14 +70,26 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
         $http.post("http://localhost:5000/core/get/statusupdatebyrequest?request=" + request_id, {})
             .then(function (response)
             {
-                $scope.status_updates = response.data;
-                $scope.selected_request = request_id.toString();
+                if(response.data === 'no')
+                    $scope.has_updates = false;
+                else
+                {
+                    $scope.status_updates = response.data;
+                    $scope.selected_request = request_id.toString();
+                    $scope.has_updates = true;
+                }
             });
 
         $http.post("http://localhost:5000/core/get/donationsofrequest?request=" + request_id, {})
             .then(function (response)
             {
-                $scope.request_donations = response.data;
+                if(response.data === 'no')
+                    $scope.has_donations = false;
+                else
+                {
+                    $scope.request_donations = response.data;
+                    $scope.has_donations = true;
+                }
             });
     };
 
