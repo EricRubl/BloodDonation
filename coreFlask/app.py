@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Flask, Response, redirect, request, abort
-from flask_login import LoginManager, UserMixin, login_required, current_user
+from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
 
 from API import AccountAPI
 from API import ctrl
@@ -36,13 +36,44 @@ def index():
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    return AccountAPI.login_user_endpoint()
+    if current_user.is_authenticated:
+        return redirect('/')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user_type = ctrl.get_user_type(username, password)
+        if user_type is None:
+            return abort(401)
+        elif user_type == 'Donor':
+            _id = username
+            user = User(_id)
+            # user.type = 'Donor'
+            login_user(user)
+            return redirect('/donor')
+        elif user_type == 'Doctor':
+            _id = username
+            user = User(_id)
+            # user.type = 'Doctor'
+            login_user(user)
+            return redirect('/doctor')
+        elif user_type == 'Personnel':
+            _id = username
+            user = User(_id)
+            # user.type = 'Personnel'
+            login_user(user)
+            return redirect('/personnel')
+        else:
+            return abort(401)
+    else:
+        return app.send_static_file("dashboard/login.html")
 
 
 # somewhere to logout
 @app.route("/logout")
 def logout():
-    return AccountAPI.logout_user_endpoint()
+    if current_user.is_authenticated:
+        logout_user()
+    return redirect('/')
 
 
 @app.route('/user', methods=['GET'])
