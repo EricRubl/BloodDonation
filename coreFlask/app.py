@@ -82,6 +82,11 @@ def get_current_user():
     return str(current_user.id)
 
 
+@app.route('/register')
+def register_new_donor():
+    return app.send_static_file('dashboard/register.html')
+
+
 @app.errorhandler(401)
 def page_not_found(e):
     return Response('<p>Login failed</p> ' + str(e))
@@ -307,6 +312,16 @@ def core_get_ready_for_request():
     if not request.args:
         return abort(400)
     return str(ctrl.get_ready_for_request(request.args['id']))
+
+
+@app.route('/core/post/insertdonor', methods=['GET', 'POST'])
+def core_insert_donor():
+    if not request.args:
+        return abort(400)
+    a = request.args
+    ctrl.insert_donor(a['name'], datetime.date(year=int(a['y']), month=int(a['m']), day=int(a['d'])), a['email'], a['addr'], a['pass'],
+                      a['blood'])
+    return redirect('/')
 
 
 if __name__ == '__main__':

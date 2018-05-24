@@ -7,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="static/dashboard/assets/css/main.css"/>
+    <link rel="stylesheet" href="static/donor/assets/css/main.css"/>
     <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 </head>
@@ -50,11 +50,10 @@
         <!-- One -->
         <section id="one" class="wrapper spotlight style1">
             <div class="inner">
-                <a href="#" class="image"><img src="static/dashboard/images/bloody.png" alt=""/></a>
+                <a href="#" class="image"><img src="static/donor/images/bloody.png" alt=""/></a>
                 <div class="content">
                     <h2 class="major">{{ userInfo[0].name }}</h2>
                     <p>{{ userInfo[0].date_of_birth }}</p>
-                    <p>{{ userInfo[0].email }}</p>
                     <p>{{ userInfo[0].address }}</p>
                     <p>Blood | {{ userInfo[0].blood }}</p>
                 </div>
@@ -94,52 +93,48 @@
                         <div class="6u$ 12u$(small)">
                             <input type="checkbox" onclick="return false;" id="demo-human" name="demo-human"
                                    ng-checked="labs[0].syph ? 'checked' : ''">
-                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold"
-                                                       ng-style="{color: labs[0].syph ? 'red' : 'green'}">Syphilis</p>
+                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold" ng-style="{color: labs[0].syph ? 'red' : 'green'}">Syphilis</p>
                             </label>
                         </div>
                         <div class="6u$ 12u$(small)">
                             <input type="checkbox" onclick="return false;" id="demo-human" name="demo-human"
                                    ng-checked="labs[0].hbv ? 'checked' : ''">
-                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold"
-                                                       ng-style="{color: labs[0].hbv ? 'red' : 'green'}">HBV</p></label>
+                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold" ng-style="{color: labs[0].hbv ? 'red' : 'green'}">HBV</p></label>
                         </div>
                         <div class="6u$ 12u$(small)">
                             <input type="checkbox" onclick="return false;" id="demo-human" name="demo-human"
                                    ng-checked="labs[0].hiv ? 'checked' : ''">
-                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold"
-                                                       ng-style="{color: labs[0].hiv ? 'red' : 'green'}">HIV</p></label>
+                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold" ng-style="{color: labs[0].hiv ? 'red' : 'green'}">HIV</p></label>
                         </div>
                         <div class="6u$ 12u$(small)">
                             <input type="checkbox" onclick="return false;" id="demo-human" name="demo-human"
                                    ng-checked="labs[0].hev ? 'checked' : ''">
-                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold"
-                                                       ng-style="{color: labs[0].hev ? 'red' : 'green'}">HEV</p></label>
+                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold" ng-style="{color: labs[0].hev ? 'red' : 'green'}">HEV</p></label>
                         </div>
                         <div class="6u$ 12u$(small)">
                             <input type="checkbox" onclick="return false;" id="demo-human" name="demo-human"
                                    ng-checked="labs[0].htlv ? 'checked' : ''">
-                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold"
-                                                       ng-style="{color: labs[0].htlv ? 'red' : 'green'}">HTLV</p>
+                            <label for="demo-human"><p style="font-size: 25px; font-weight: bold" ng-style="{color: labs[0].htlv ? 'red' : 'green'}">HTLV</p>
                             </label>
                         </div>
                     </div>
                 </div>
                 <ul class="copyright">
                     <li>&copy; Zario Software 2018</li>
+                    </li>
                 </ul>
             </div>
         </section>
-    </section>
+
 </div>
 
 <!-- Scripts -->
-<script src="static/dashboard/assets/js/skel.min.js"></script>
-<script src="static/dashboard/assets/js/jquery.min.js"></script>
-<script src="static/dashboard/assets/js/jquery.scrollex.min.js"></script>
-<script src="static/dashboard/assets/js/util.js"></script>
+<script src="static/donor/assets/js/skel.min.js"></script>
+<script src="static/donor/assets/js/jquery.min.js"></script>
+<script src="static/donor/assets/js/jquery.scrollex.min.js"></script>
+<script src="static/donor/assets/js/util.js"></script>
 <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="static/dashboard/assets/js/main.js"></script>
+<script src="static/donor/assets/js/main.js"></script>
 
 </body>
 </html>
