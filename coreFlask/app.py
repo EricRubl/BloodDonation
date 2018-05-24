@@ -112,7 +112,7 @@ def get_favicon():
 @login_required
 def doctor_dashboard():
     if current_user.is_authenticated and current_user.type == 'Doctor':
-        return app.send_static_file("doctor.html")
+        return app.send_static_file("dashboard/doctor.html")
     return redirect('/')
 
 

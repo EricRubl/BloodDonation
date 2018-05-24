@@ -8,7 +8,6 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
         .then(function (response)
         {
             user = response.data.toString();
-            console.log(user);
             $http.post("http://localhost:5000/core/get/donorbyname?name=" + user, {})
                 .then(function (response)
                 {

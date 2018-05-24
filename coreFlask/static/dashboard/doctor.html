@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="static/js/doctor_dashboard.js"></script>
+<head>
+    <title>FLOW.</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="static/dashboard/assets/css/main.css"/>
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
+    <style>
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            margin: 15px;
+            height: 25px;
+            background: #85868a;
+            outline: none;
+            opacity: 1;
+            -webkit-transition: .2s;
+            transition: .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+            background: #939393;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #c1c1c1;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+
+            width: 25px;
+            height: 25px;
+            background: #c1c1c1;
+            cursor: pointer;
+
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- Page Wrapper -->
+<div id="page-wrapper" ng-app="doctorDashboardApp" ng-controller="doctorDashboardController">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <h1><a href="index.html">FLOW.</a></h1>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+    <!-- Menu -->
+    <nav id="menu">
+        <div class="inner">
+            <h2>Menu</h2>
+            <ul class="links">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+            <a href="#" class="close">Close</a>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <div class="logo"><span class="icon fa-tint"></span></div>
+            <h2>Welcome to FLOW.</h2>
+            <p>mesaj inspirational</p>
+        </div>
+    </section>
+
+    <!-- Wrapper -->
+    <section id="wrapper">
+
+        <!-- One -->
+        <section id="one" class="wrapper spotlight style1">
+            <div class="inner">
+                <a href="#" class="image"><img src="static/doctor/images/bloody.png" alt=""/></a>
+                <div class="content">
+                    <h2 class="major">{{ userInfo[0].name }}</h2>
+                    <p>{{ userInfo[0].email }}</p>
+                    <p>{{ userInfo[0].hospital }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="banner">
+            <div class="inner">
+                <form ng-submit="newRequest()">
+                    <h3>Insert a new request</h3>
+                    <div class="row uniform">
+                        <div class="6u 12u$(xsmall)">
+                            <label>Priority</label>
+                            <div class="select-wrapper">
+                                <select ng-model="requestPriority">
+                                    <option value="0">Normal</option>
+                                    <option value="1">High</option>
+                                    <option value="2">Critical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="6u 12u$(xsmall)">
+                            <label>Blood type</label>
+                            <div class="select-wrapper">
+                                <select ng-model="requestBloodType">
+                                    <option value="0">A+</option>
+                                    <option value="1">A-</option>
+                                    <option value="2">B+</option>
+                                    <option value="3">B-</option>
+                                    <option value="4">AB+</option>
+                                    <option value="5">AB-</option>
+                                    <option value="6">0+</option>
+                                    <option value="7">0-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="8u 12u$(xsmall)">
+                            <label>Quantity {{ requestQuantity }}</label>
+                            <input class="slider" type="range" min="1" max="10" ng-model="requestQuantity">
+                        </div>
+                        <div class="4u">
+                            <input type="submit" value="Submit" style="margin-top: 37px" class="button special fit">
+                        </div>
+
+                    </div>
+                </form>
+                <form ng-submit="updatePriority()">
+                    <h3>Update status priority</h3>
+                    <div class="row uniform">
+                        <div class="4u">
+                            <label>Request ID</label>
+                            <div class="select-wrapper">
+                                <select ng-model="requestID">
+                                    <option ng-repeat="r in requests"
+                                            value="{{ r.request_id }}"> {{ r.request_id }} </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="4u">
+                            <label>New priority</label>
+                            <div class="select-wrapper">
+                                <select ng-model="newPriority">
+                                    <option value="0">Normal</option>
+                                    <option value="1">High</option>
+                                    <option value="2">Critical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="4u">
+                            <input type="submit" value="Update" style="margin-top: 37px" class="button special fit"/>
+                        </div>
+                    </div>
+                </form>
+                <h3 class="major">Your Requests</h3>
+                <div class="table-wrapper">
+                    <table class="alt">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Priority</th>
+                            <th>Blood</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="r in requests" ng-click="showStatusUpdates(r.request_id)">
+                            <td>{{ r.request_id }}</td>
+                            <td>{{ r.priority }}</td>
+                            <td>{{ r.blood }}</td>
+                            <td>{{ r.quantity }}</td>
+                            <td>{{ r.status }}</td>
+                            <td>{{ r.date }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Updates for request {{ requested_id }}</p>
+
+                    <table class="alt" ng-style="{visibility: has_updates ? 'visible' : 'hidden'}">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Previous</th>
+                            <th>Current</th>
+                            <th>Personnel</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="su in status_updates">
+                            <td>{{ su.date }}</td>
+                            <td>{{ su.previous }}</td>
+                            <td>{{ su.current }}</td>
+                            <td>{{ su.personnel_id }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+        </section>
+
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <li>&copy; Zario Software 2018</li>
+                </ul>
+            </div>
+        </section>
+
+</div>
+
+<!-- Scripts -->
+<script src="static/dashboard/assets/js/skel.min.js"></script>
+<script src="static/dashboard/assets/js/jquery.min.js"></script>
+<script src="static/dashboard/assets/js/jquery.scrollex.min.js"></script>
+<script src="static/dashboard/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="static/dashboard/assets/js/main.js"></script>
+
+</body>
+</html>

@@ -183,12 +183,16 @@ class Controller:
         return json_object
 
     def update_request_priority(self, request_id=None, new_priority=None):
+        if request_id == 'undefined' or new_priority == 'undefined':
+            return
         try:
             self.db_connector.call_procedure("UpdateRequestPriority", [int(request_id), int(new_priority)])
         except mysql.connector.Error:
             return 'Error!'
 
     def insert_new_request(self, doctor_name, priority=None, blood=None, quantity=None, status=None, date=None):
+        if priority == 'undefined' or blood == 'undefined':
+            return
         new_request = Request(int(priority), int(blood), doctor_name, int(quantity), status, date)
         self.insert(new_request)
 
