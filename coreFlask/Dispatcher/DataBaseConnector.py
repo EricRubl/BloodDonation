@@ -13,6 +13,17 @@ class DataBaseConnector:
             'host': DataBaseConfig.host,
             'database': DataBaseConfig.database
         }
+        try:
+            self.cnx = mysql.connector.connect(**self.db_config)
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                raise err
+        except OperationException as err:
+            raise err
 
     def call_procedure(self, procedure_name, arguments=None):
         """ Calls a procedure on the DB
@@ -30,8 +41,7 @@ class DataBaseConnector:
         """
         return_obj = []
         try:
-            cnx = mysql.connector.connect(**self.db_config)
-            cursor = cnx.cursor()
+            cursor = self.cnx.cursor()
             if arguments is None:
                 cursor.callproc(procedure_name)
             else:
@@ -41,18 +51,17 @@ class DataBaseConnector:
                 for result_row in fetched_results:
                     return_obj.append(result_row)
                 break
-            cnx.commit()
+            self.cnx.commit()
             cursor.close()
         except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
-            else:
-                raise err
+            raise err
         except OperationException as err:
             raise err
-        else:
-            # Successfully executed the insert
-            cnx.close()
+        # Successfully executed the insert
         return return_obj
+
+
+if __name__ == '__main__':
+    x = DataBaseConnector()
+    res = x.call_procedure("GetAllDoctors")
+    print(res)

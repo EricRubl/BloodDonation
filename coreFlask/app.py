@@ -331,6 +331,11 @@ def core_insert_donor():
 
 @app.route('/core/post/forgotpassword', methods=['GET', 'POST'])
 def forgot_pass_request():
+    if not request.args:
+        return abort(400)
+    args = request.args
+    result = ctrl.forgot_password(args['email'], args['pass'])
+    print(result)
     return 'err'
 
 

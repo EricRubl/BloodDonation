@@ -395,6 +395,11 @@ class Controller:
                 return 'Personnel'
         return None
 
+    def forgot_password(self, email, password):
+        print(email, password)
+
+        pass
+
     def test(self):
         self.get_all_requests()
         self.get_all_hospitals()
