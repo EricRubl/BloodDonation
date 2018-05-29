@@ -1,3 +1,5 @@
+import threading
+
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -13,6 +15,7 @@ class DataBaseConnector:
             'host': DataBaseConfig.host,
             'database': DataBaseConfig.database
         }
+        self.lock = threading.Lock()
         try:
             self.cnx = mysql.connector.connect(**self.db_config)
         except mysql.connector.Error as err:
@@ -39,6 +42,7 @@ class DataBaseConnector:
         :return:    result of the
         :rtype:     list
         """
+        self.lock.acquire()
         return_obj = []
         try:
             cursor = self.cnx.cursor()
@@ -54,10 +58,13 @@ class DataBaseConnector:
             self.cnx.commit()
             cursor.close()
         except mysql.connector.Error as err:
+            self.lock.release()
             raise err
         except OperationException as err:
+            self.lock.release()
             raise err
         # Successfully executed the insert
+        self.lock.release()
         return return_obj
 
 

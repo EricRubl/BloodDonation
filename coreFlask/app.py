@@ -354,4 +354,4 @@ def forgot_pass_request():
 
 
 if __name__ == '__main__':
-    app.run(threaded=False, host='0.0.0.0')
+    app.run(threaded=True, host='0.0.0.0')
