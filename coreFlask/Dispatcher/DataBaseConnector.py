@@ -63,5 +63,5 @@ class DataBaseConnector:
 
 if __name__ == '__main__':
     x = DataBaseConnector()
-    res = x.call_procedure("GetAllDoctors")
+    res = x.call_procedure("GetDonorByName", ['Vlad-Dionisie Potra'])
     print(res)
