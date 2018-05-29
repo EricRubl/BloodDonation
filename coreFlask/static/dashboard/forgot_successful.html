@@ -17,28 +17,9 @@
         <div class="inner">
             <h3 class="major">Forgot password</h3>
             <p>Password changed</p>
-            <form ng-submit="sendreq()">
-                <div class="row uniform">
-                    <div class="12u$">
-                        <label ng-style="{color: no_email ? 'red' : 'white'}">Email</label>
-                        <input type="text" ng-model="email">
-                    </div>
-                    <div class="6u 12u$(xsmall)">
-                        <label ng-style="{color: pass_mism ? 'red' : 'white'}">Password</label>
-                        <input type="password" ng-model="pass">
-                    </div>
-                    <div class="6u 12u$(xsmall)">
-                        <label ng-style="{color: pass_mism ? 'red' : 'white'}">Repeat Password</label>
-                        <input type="password" ng-model="rep_pass">
-                    </div>
-                    <div class="12u$">
-                        <ul class="actions">
-                            <li><input type="submit" value="SUBMIT" class="special"/></li>
-                            <li><a href="/"><input type="button" value="home" class="special"></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </form>
+            <ul class="actions">
+                <li><a href="/"><input type="button" value="home" class="special"></a></li>
+            </ul>
         </div>
     </section>
     <!-- Scripts -->

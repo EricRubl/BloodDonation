@@ -4,3 +4,4 @@ class DataBaseConfig:
     password = 'frigider'
     database = 'BloodDonation'
     host = 'zario.go.ro'
+
