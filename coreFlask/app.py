@@ -362,7 +362,7 @@ def forgot_pass_request():
 
 @app.route('/doc')
 @app.route('/doc/<file_name>')
-def documentation(file_name):
+def documentation(file_name=None):
     if file_name is None:
         return render_template('documentation.html', content='please enter a desired documentation')
     html_content = DocumentationAPI.markdown_file_to_html(file_name)
