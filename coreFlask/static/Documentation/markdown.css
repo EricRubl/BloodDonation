@@ -1,0 +1,62 @@
+
+body {
+    background-color: #f2f2f2;
+}
+
+.documentation {
+    font-family: Lato, Consolas, serif;
+    color: #3d3d3d;
+    font-size: large;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+a:link{
+    color: #303035;
+}
+a:active{
+    color: #303035;
+}
+a:visited{
+    color: #303035;
+}
+a:hover{
+    color: #00475E;
+    transition: color 0.5s ease;
+}
+
+h1 {
+    margin-left: 12px;
+}
+
+h2 {
+    margin-left: 10px;
+}
+
+h3 {
+    margin-left: 8px;
+}
+
+h4 {
+    margin-left: 6px;
+}
+
+h5 {
+    margin-left: 4px;
+}
+
+h6 {
+    margin-left: 2px;
+}
+
+code {
+    background: #d5d5d5;
+    padding: 2px;
+    font-family: Consolas, monospace;
+}
+
+code:hover {
+    background: #e8e8e8;
+    color: #00475E;
+    transition: background-color, color 0.5s ease;
+}
