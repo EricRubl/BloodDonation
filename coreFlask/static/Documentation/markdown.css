@@ -29,6 +29,20 @@ h1 {
     margin-left: 12px;
 }
 
+h1:after
+{
+    content:' ';
+    display:block;
+    border:1px solid #eaeaea;
+}
+
+h2:after
+{
+    content:' ';
+    display:block;
+    border:1px solid #d3d3d3;
+}
+
 h2 {
     margin-left: 10px;
 }
@@ -53,10 +67,10 @@ code {
     background: #d5d5d5;
     padding: 2px;
     font-family: Consolas, monospace;
+    transition: 1.5s;
 }
 
 code:hover {
     background: #e8e8e8;
     color: #00475E;
-    transition: background-color, color 0.5s ease;
 }

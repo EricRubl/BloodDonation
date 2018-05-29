@@ -1,9 +1,9 @@
 import datetime
 
-from flask import Flask, Response, redirect, request, abort
+from flask import Flask, Response, redirect, request, abort, render_template
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
 
-from API import AccountAPI
+from API import AccountAPI, DocumentationAPI
 from API import ctrl
 
 app = Flask(__name__)
@@ -108,12 +108,12 @@ def page_not_found(e):
 
 @app.errorhandler(404)
 def page_not_found_404(e):
-    return app.send_static_file('404/index.html')
+    return app.send_static_file('404/documentation.html')
 
 
 @app.errorhandler(500)
 def http_500(e):
-    return app.send_static_file('500/index.html')
+    return app.send_static_file('500/documentation.html')
 
 
 # handle login failed
@@ -351,6 +351,14 @@ def forgot_pass_request():
     result = ctrl.forgot_password(args['email'], args['pass'])
     print(result)
     return result
+
+
+@app.route('/doc/<file_name>')
+def documentation(file_name):
+    html_content = DocumentationAPI.markdown_file_to_html(file_name)
+    print(html_content)
+    # return html_content
+    return render_template('documentation.html', content=html_content)
 
 
 if __name__ == '__main__':
