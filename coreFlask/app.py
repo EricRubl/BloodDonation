@@ -1,9 +1,10 @@
 import datetime
+import threading
 
 from flask import Flask, Response, redirect, request, abort, render_template
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
 
-from API import AccountAPI, DocumentationAPI
+from API import DocumentationAPI
 from API import ctrl
 
 app = Flask(__name__)
@@ -226,9 +227,15 @@ def core_post_insert_request():
 @app.route('/core/get/personnelbyname', methods=['GET', 'POST'])
 @login_required
 def core_get_personnel_by_name():
+    print(threading.active_count())
     if not request.args:
         return abort(400)
     return str(ctrl.get_personnel_by_name(request.args['name']))
+
+
+@app.before_request
+def before_req():
+    print(threading.active_count())
 
 
 @app.route('/core/get/requests', methods=['GET'])
@@ -357,7 +364,6 @@ def forgot_pass_request():
 def documentation(file_name):
     html_content = DocumentationAPI.markdown_file_to_html(file_name)
     print(html_content)
-    # return html_content
     return render_template('documentation.html', content=html_content)
 
 
