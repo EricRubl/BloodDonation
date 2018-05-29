@@ -3,12 +3,12 @@ let personalInfo = angular.module('personnelDashboardApp', []);
 personalInfo.controller('personnelDashboardController', function ($scope, $http, $timeout)
 {
     let user;
-    $http.get("http://localhost:5000/user")
+    $http.get("/user")
         .then(function (response)
         {
             user = response.data.toString();
 
-            $http.post("http://localhost:5000/core/get/personnelbyname?name=" + user, {})
+            $http.post("/core/get/personnelbyname?name=" + user, {})
                 .then(function (response)
                 {
                     $scope.userInfo = response.data;
@@ -19,44 +19,44 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
 
     function fetchData()
     {
-        $http.get("http://localhost:5000/core/get/requests")
+        $http.get("/core/get/requests")
             .then(function (response)
             {
                 $scope.requests = response.data;
             });
 
 
-        $http.get("http://localhost:5000/core/get/donationsinbank")
+        $http.get("/core/get/donationsinbank")
             .then(function (response)
             {
                 $scope.donations_in_bank = response.data;
             });
 
-        $http.get("http://localhost:5000/core/get/donations")
+        $http.get("/core/get/donations")
             .then(function (response)
             {
                 $scope.donations = response.data;
             });
 
-        $http.get("http://localhost:5000/core/get/donationswithoutlabs")
+        $http.get("/core/get/donationswithoutlabs")
             .then(function (response)
             {
                 $scope.no_labs = response.data;
             });
 
-        $http.get("http://localhost:5000/core/get/readyforbank")
+        $http.get("/core/get/readyforbank")
             .then(function (response)
             {
                 $scope.ready_for_bank = response.data;
             });
 
-        $http.get("http://localhost:5000/core/get/donors")
+        $http.get("/core/get/donors")
             .then(function (response)
             {
                 $scope.donors = response.data;
             });
 
-        $http.post("http://localhost:5000/core/get/readyforrequest?id=" + $scope.atrReq, {})
+        $http.post("/core/get/readyforrequest?id=" + $scope.atrReq, {})
             .then(function (response)
             {
                 $scope.ready_for_request = response.data;
@@ -67,7 +67,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
 
     $scope.showStatusUpdates = function (request_id)
     {
-        $http.post("http://localhost:5000/core/get/statusupdatebyrequest?request=" + request_id, {})
+        $http.post("/core/get/statusupdatebyrequest?request=" + request_id, {})
             .then(function (response)
             {
                 if(response.data === 'no')
@@ -80,7 +80,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
                 }
             });
 
-        $http.post("http://localhost:5000/core/get/donationsofrequest?request=" + request_id, {})
+        $http.post("/core/get/donationsofrequest?request=" + request_id, {})
             .then(function (response)
             {
                 if(response.data === 'no')
@@ -97,12 +97,12 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
     {
         let previous = '';
 
-        $http.post("http://localhost:5000/core/get/requestbyid?id=" + $scope.requestID, {})
+        $http.post("/core/get/requestbyid?id=" + $scope.requestID, {})
             .then(function (response)
             {
                 previous = response.data[0].status;
 
-                $http.post("http://localhost:5000/core/post/updaterequeststatus?id=" + $scope.requestID + "&previous="
+                $http.post("/core/post/updaterequeststatus?id=" + $scope.requestID + "&previous="
                     + previous + "&current=" + $scope.requestStatus + "&personnel=" + user, {})
                     .then(function (response)
                     {
@@ -120,7 +120,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
         let htlv = $scope.idHtlv ? 1 : 0;
 
 
-        $http.post("http://localhost:5000/core/post/insertlabresult?id=" + $scope.idID + "&syph=" + syph + "&hbv="
+        $http.post("/core/post/insertlabresult?id=" + $scope.idID + "&syph=" + syph + "&hbv="
             + hbv + "&hiv=" + hiv + "&hev=" + hev + "&htlv=" + htlv, {})
             .then(function (response)
             {
@@ -130,7 +130,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
 
     $scope.moveToBank = function ()
     {
-        $http.post("http://localhost:5000/core/post/movetobank?id=" + $scope.mbID, {})
+        $http.post("/core/post/movetobank?id=" + $scope.mbID, {})
             .then(function (response)
             {
                 notifyError(response.data.toString());
@@ -139,7 +139,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
 
     $scope.assignToRequest = function ()
     {
-        $http.post("http://localhost:5000/core/post/assigntorequest?req=" + $scope.atrReq + "&don=" + $scope.atrDon, {})
+        $http.post("/core/post/assigntorequest?req=" + $scope.atrReq + "&don=" + $scope.atrDon, {})
             .then(function (response)
             {
                 notifyError(response.data.toString());
@@ -148,7 +148,7 @@ personalInfo.controller('personnelDashboardController', function ($scope, $http,
 
     $scope.insertDonation = function ()
     {
-        $http.post("http://localhost:5000/core/post/insertdonation?donor=" + $scope.indDon + "&personnel=" + user, {})
+        $http.post("/core/post/insertdonation?donor=" + $scope.indDon + "&personnel=" + user, {})
             .then(function (response)
             {
                 notifyError(response.data.toString());

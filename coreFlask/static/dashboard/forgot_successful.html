@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="static/js/forgot_dashboard.js"></script>
+<head>
+    <title>FLOW.</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="static/dashboard/assets/css/main.css"/>
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+<div ng-app="forgotDashboardApp" ng-controller="forgotDashboardController">
+    <section id="banner">
+        <div class="inner">
+            <h3 class="major">Forgot password</h3>
+            <p>Password changed</p>
+            <form ng-submit="sendreq()">
+                <div class="row uniform">
+                    <div class="12u$">
+                        <label ng-style="{color: no_email ? 'red' : 'white'}">Email</label>
+                        <input type="text" ng-model="email">
+                    </div>
+                    <div class="6u 12u$(xsmall)">
+                        <label ng-style="{color: pass_mism ? 'red' : 'white'}">Password</label>
+                        <input type="password" ng-model="pass">
+                    </div>
+                    <div class="6u 12u$(xsmall)">
+                        <label ng-style="{color: pass_mism ? 'red' : 'white'}">Repeat Password</label>
+                        <input type="password" ng-model="rep_pass">
+                    </div>
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li><input type="submit" value="SUBMIT" class="special"/></li>
+                            <li><a href="/"><input type="button" value="home" class="special"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Scripts -->
+    <script src="static/dashboard/assets/js/skel.min.js"></script>
+    <script src="static/dashboard/assets/js/jquery.min.js"></script>
+    <script src="static/dashboard/assets/js/jquery.scrollex.min.js"></script>
+    <script src="static/dashboard/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="static/dashboard/assets/js/main.js"></script>
+</div>
+</body>
+</html>

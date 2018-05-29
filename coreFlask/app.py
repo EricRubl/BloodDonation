@@ -82,9 +82,18 @@ def get_current_user():
     return str(current_user.id)
 
 
-@app.route('/forgot')
+@app.route('/forgot', methods=['GET'])
 def forgot_password():
-    return app.send_static_file('dashboard/forgot.html')
+    if request.method == 'GET' and len(request.args) == 1 and 'token' in request.args and len(request.args['token']):
+        token = request.args['token']
+        if ctrl.change_password(token):
+            return app.send_static_file('dashboard/forgot_successful.html')
+        else:
+            return app.send_static_file('dashboard/forgot_failed.html')
+    if request.method == 'GET' and len(request.args) == 1 and 'token' not in request.args:
+        return redirect('/forgot')
+    else:
+        return app.send_static_file('dashboard/forgot.html')
 
 
 @app.route('/register')
@@ -335,12 +344,13 @@ def core_insert_donor():
 
 @app.route('/core/post/forgotpassword', methods=['GET', 'POST'])
 def forgot_pass_request():
+    print(request.method)
     if not request.args:
         return abort(400)
     args = request.args
     result = ctrl.forgot_password(args['email'], args['pass'])
     print(result)
-    return 'err'
+    return result
 
 
 if __name__ == '__main__':

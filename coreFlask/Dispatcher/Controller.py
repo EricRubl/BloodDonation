@@ -3,7 +3,9 @@ import json
 
 import mysql.connector
 
+from API import EmailAPI
 from Dispatcher.DataBaseConnector import DataBaseConnector
+from Dispatcher.TokenManager import TokenManager
 from Model.Base import Base
 from Model.Doctor import Doctor
 from Model.Donation import Donation
@@ -19,6 +21,7 @@ from Utils.RequestStatus import RequestStatus
 class Controller:
     def __init__(self):
         self.db_connector = DataBaseConnector()
+        self.forgot_password_token = TokenManager()
 
     def insert_donor(self, name,  dob, email, address, password, blood):
         try:
@@ -400,8 +403,22 @@ class Controller:
 
     def forgot_password(self, email, password):
         print(email, password)
+        query_result = self.db_connector.call_procedure('GetDonorByEmail', [email])
+        if len(query_result) != 1:
+            return 'err'
+        donor = Donor.new(query_result[0])
+        print(donor)
+        token = self.forgot_password_token.new_token(email, password)
+        EmailAPI.send_forgot_password_email(email, token)
+        return 'ok'
 
-        pass
+    def change_password(self, token):
+        result = self.forgot_password_token.verify_token(token)
+        if result is None:
+            return False
+        # the token is valid, should change password
+        self.db_connector.call_procedure('UpdateDonorPassword', [result['user_email'], result['new_password']])
+        return True
 
     def test(self):
         self.get_all_requests()

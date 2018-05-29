@@ -4,11 +4,11 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
 {
     let user = '';
 
-    $http.get("http://localhost:5000/user")
+    $http.get("/user")
         .then(function (response)
         {
             user = response.data.toString();
-            $http.post("http://localhost:5000/core/get/donorbyname?name=" + user, {})
+            $http.post("/core/get/donorbyname?name=" + user, {})
                 .then(function (response)
                 {
                     $scope.userInfo = response.data;
@@ -19,7 +19,7 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
 
     function getUserDonations()
     {
-        $http.post("http://localhost:5000/core/get/donationsbydonor?name=" + user, {})
+        $http.post("/core/get/donationsbydonor?name=" + user, {})
             .then(function (response)
             {
                 $scope.donations = response.data;
@@ -29,7 +29,7 @@ personalInfo.controller('donorDashboardController', function ($scope, $http, $ti
 
     $scope.showLabs = function (donation_id)
     {
-        $http.post("http://localhost:5000/core/get/labresultbydonation?donation=" + donation_id, {})
+        $http.post("/core/get/labresultbydonation?donation=" + donation_id, {})
             .then(function (response)
             {
                 if(response.data === 'nolabs')
