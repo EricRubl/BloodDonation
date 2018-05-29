@@ -324,9 +324,13 @@ def core_insert_donor():
     if not request.args:
         return abort(400)
     a = request.args
-    ctrl.insert_donor(a['name'], datetime.date(year=int(a['y']), month=int(a['m']), day=int(a['d'])), a['email'], a['addr'], a['pass'],
-                      a['blood'])
-    return redirect('/')
+    code = ctrl.insert_donor(a['name'], datetime.date(year=int(a['y']), month=int(a['m']), day=int(a['d'])), a['email'],
+                             a['addr'], a['pass'],
+                             a['blood'])
+    if code == 'err':
+        return code
+    else:
+        return redirect('/')
 
 
 @app.route('/core/post/forgotpassword', methods=['GET', 'POST'])

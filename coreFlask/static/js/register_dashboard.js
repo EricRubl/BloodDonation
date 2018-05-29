@@ -21,7 +21,15 @@ personalInfo.controller('registerDashboardController', function ($scope, $http, 
                  + '&blood=' + $scope.blood, {})
                 .then(function (response)
                 {
-                    window.location.replace('/')
+                    if(response.data === 'err')
+                    {
+                        $scope.no_email = true;
+                        $scope.email_err = ' | ALREADY USED';
+                    }
+                    else
+                    {
+                        window.location.replace('/')
+                    }
                 });
         }
     };
