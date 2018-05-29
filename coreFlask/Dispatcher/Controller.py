@@ -21,7 +21,10 @@ class Controller:
         self.db_connector = DataBaseConnector()
 
     def insert_donor(self, name,  dob, email, address, password, blood):
-        self.db_connector.call_procedure("InsertDonor", [name, dob, email, address, password, int(blood)])
+        try:
+            self.db_connector.call_procedure("InsertDonor", [name, dob, email, address, password, int(blood)])
+        except mysql.connector.Error:
+            return 'err'
 
     def get_donations_without_labs(self):
         query_result = self.db_connector.call_procedure("GetDonationsWithoutLabs")
