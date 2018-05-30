@@ -109,12 +109,12 @@ def page_not_found(e):
 
 @app.errorhandler(404)
 def page_not_found_404(e):
-    return app.send_static_file('404/documentation.html')
+    return app.send_static_file('404/index.html')
 
 
 @app.errorhandler(500)
 def http_500(e):
-    return app.send_static_file('500/documentation.html')
+    return app.send_static_file('500/index.html')
 
 
 # handle login failed
