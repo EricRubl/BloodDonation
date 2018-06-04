@@ -1,6 +1,8 @@
 body {
     background-color: #f2f2f2;
+    transition: 4s ease;
 }
+
 .documentation {
     font-family: Lato, Consolas, serif;
     color: #3d3d3d;
@@ -8,60 +10,75 @@ body {
     margin-left: 10%;
     margin-right: 10%;
 }
-a:link{
+
+a:link {
     color: #303035;
 }
-a:active{
+
+a:active {
     color: #303035;
 }
-a:visited{
+
+a:visited {
     color: #303035;
 }
-a:hover{
+
+a:hover {
     color: #00475E;
     transition: color 0.5s ease;
 }
+
 h1 {
     margin-left: 12px;
     transition: 1.5s;
 }
+
 h1:after {
-    content:' ';
-    display:block;
-    border:1px solid #eaeaea;
+    content: ' ';
+    display: block;
+    border: 1px solid #eaeaea;
 }
+
 h1:hover {
     color: #17232d;
 }
+
 h2 {
     margin-left: 10px;
     transition: 1.5s;
 }
+
 h2:after {
-    content:' ';
-    display:block;
-    border:1px solid #d3d3d3;
+    content: ' ';
+    display: block;
+    border: 1px solid #d3d3d3;
 }
+
 h2:hover {
     color: #17232d;
 }
+
 h3 {
     margin-left: 8px;
 }
+
 h4 {
     margin-left: 6px;
 }
+
 h5 {
     margin-left: 4px;
 }
+
 h6 {
     margin-left: 2px;
 }
 
 code {
+    display: inline-block;
     background: #d5d5d5;
-    padding: 2px;
-    font-family: Consolas, monospace;
+    padding: 1px;
+    font-family: 'Ubuntu Mono', Consolas, monospace;
     transition: 1.5s;
 }
 

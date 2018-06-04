@@ -16,6 +16,13 @@ class DataBaseConnector:
             'database': DataBaseConfig.database
         }
         self.lock = threading.Lock()
+        self.cnx = None
+        self.lock.acquire()
+        self.connect()
+        self.lock.release()
+
+    def connect(self):
+        # lock must be acquired
         try:
             self.cnx = mysql.connector.connect(**self.db_config)
         except mysql.connector.Error as err:
@@ -42,9 +49,10 @@ class DataBaseConnector:
         :return:    result of the
         :rtype:     list
         """
-        self.lock.acquire()
         return_obj = []
-        try:
+        retries = 0
+
+        def critical_section():
             cursor = self.cnx.cursor()
             if arguments is None:
                 cursor.callproc(procedure_name)
@@ -57,9 +65,20 @@ class DataBaseConnector:
                 break
             self.cnx.commit()
             cursor.close()
+
+        self.lock.acquire()
+        try:
+            critical_section()
         except mysql.connector.Error as err:
+            if err.errno == -1:
+                self.connect()
+                if retries < 5:
+                    print("in here")
+                    retries += 1
+                    critical_section()
             self.lock.release()
-            raise err
+            if retries < 5:
+                return return_obj
         except OperationException as err:
             self.lock.release()
             raise err
