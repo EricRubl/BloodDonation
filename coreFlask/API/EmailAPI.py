@@ -13,7 +13,7 @@ def send_forgot_password_email(user_email, token):
     smtp_server.login(gmail_user, gmail_password)
     header = 'To:' + user_email + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:testing \n'
     msg = header + '\n To reset your password, access the following link: ' \
-                   'http://localhost:5000/forgot?token=%s \n\n' \
+                   'http://zario.go.ro:5000/forgot?token=%s \n\n' \
                    % token
     smtp_server.sendmail(gmail_user, user_email, msg)
     print('done!')
