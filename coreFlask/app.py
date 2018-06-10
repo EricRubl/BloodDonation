@@ -1,4 +1,5 @@
 import datetime
+import hashlib
 import threading
 
 from flask import Flask, Response, redirect, request, abort, render_template
@@ -41,7 +42,10 @@ def login():
         return redirect('/')
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        # hashing password
+        # password = request.form['password']
+        password = hashlib.sha256(request.form['password'].encode()).hexdigest()
+        print(password)
         user_type = ctrl.get_user_type(username, password)
         if user_type is None:
             return abort(401)
@@ -341,7 +345,7 @@ def core_insert_donor():
         return abort(400)
     a = request.args
     code = ctrl.insert_donor(a['name'], datetime.date(year=int(a['y']), month=int(a['m']), day=int(a['d'])), a['email'],
-                             a['addr'], a['pass'],
+                             a['addr'], hashlib.sha256(a['pass'].encode()).hexdigest(),
                              a['blood'])
     if code == 'err':
         return code
@@ -355,7 +359,8 @@ def forgot_pass_request():
     if not request.args:
         return abort(400)
     args = request.args
-    result = ctrl.forgot_password(args['email'], args['pass'])
+    password = hashlib.sha256(args['pass'].encode()).hexdigest()
+    result = ctrl.forgot_password(args['email'], password)
     print(result)
     return result
 
