@@ -5,7 +5,7 @@
 2. *User types*
 3. *User manual*
 #### **1. Application description**
-The blood donation application **"FLOW."** is a solution designed for a better management of the blood donation process, designed to make the work of the donation center personnel easier, as well as encourage the donors to donate more often. To make it accessible for any user, regardless of their experience in using it, **FLOW** comes in the form of a site, that is both modern and intuitive at the same time, thanks to the state of the art technologies used in the development process.
+The blood donation application **"FLOW."** is a solution designed for a better management of the blood donation process, designed to make the work of the donation center personnel easier, as well as encourage the donors to donate more often. To make it accessible for any user, regardless of their experience in using it, **FLOW.** comes in the form of a site, that is both modern and intuitive at the same time, thanks to the state of the art technologies used in the development process.
 
 Using this solution, the doctors can make blood request in a matter of seconds and see at any time how their request is managed by the donation center employees, who can notify the donors about a need of blood, as well as manage the existing blood bags.
 
@@ -16,9 +16,9 @@ As it was designed to be used at the same time by both donors and medical person
 * There are 3 types of registered users:
 	*  Donors can register on the platform, donate and check their blood donation history.
 	*  Doctors can request blood bags for their patients and see the state of their request, they can update a request's priority status and also to see a list of all of their requests; 
-	*  Nurses are the donation center personnel, being able to manage donors and blood bags;
+	*  Personnel are the donation center staff, being able to manage donors and blood bags;
 #### **3. User Manual**
-In this section it will be explained how easily you can use this app no matter if you are a doctor,  nurse or **hero** (a donor).
+In this section it will be explained how easily you can use this app no matter if you are a doctor,  personnel or **hero** (a donor).
 
 We have a main page which is the same for every user from where you can log in, recover a lost password or register as a new donor:
 
@@ -39,8 +39,8 @@ If you are logged in as a doctor, you'll get the following screen that allows th
 
 ![](https://image.ibb.co/itFBdT/4.png)
 
-##### Nurse
-A nurse can see the list of all the Donation Requests, Donations and the Blood Bank
+##### Personnel
+A personnel can see the list of all the Donation Requests, Donations and the Blood Bank
 
 ![](https://image.ibb.co/h5pF58/5.png)
 ![](https://image.ibb.co/iV0Nk8/6.png)
