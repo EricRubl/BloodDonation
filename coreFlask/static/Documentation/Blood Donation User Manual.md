@@ -1,4 +1,4 @@
-
+﻿
 # Blood Donation End User Manual
 ### Table of contents
 1. *Application description*
