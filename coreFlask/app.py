@@ -9,7 +9,7 @@ from API import DocumentationAPI
 from API import ctrl
 
 app = Flask(__name__)
-app.config.update(DEBUG=True, SECRET_KEY="super_secret")
+app.config.update(DEBUG=False, SECRET_KEY="super_secret")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
